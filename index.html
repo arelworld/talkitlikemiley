@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakFluent | My Interview & Self-Learning App</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f9fafb;
+        }
+
+        body { font-family: 'Inter', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .app-card { max-width: 900px; width: 100%; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 10px; }
+        .stats { display: flex; justify-content: space-around; background: #f3f4f6; padding: 10px; border-radius: 8px; margin-bottom: 20px; }
+
+        .question-box { background: #eef2ff; border-left: 6px solid var(--primary); padding: 20px; margin-bottom: 20px; min-height: 80px; }
+        .question-box h2 { margin: 0; font-size: 1.2rem; color: #1e1b4b; }
+        .hint { font-size: 0.85rem; color: #6366f1; margin-top: 8px; font-style: italic; }
+
+        .controls { text-align: center; gap: 10px; display: flex; justify-content: center; margin-bottom: 20px; }
+        button { padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-mic { background: var(--primary); color: white; }
+        .btn-next { background: #e5e7eb; color: #374151; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .display-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { border: 1px solid #e5e7eb; padding: 15px; border-radius: 10px; height: 250px; overflow-y: auto; }
+        .panel h4 { margin-top: 0; color: #4b5563; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        .correction { color: var(--danger); font-weight: bold; background: #fee2e2; padding: 2px 4px; border-radius: 4px; }
+        .power-word { color: var(--success); font-weight: bold; }
+        .transcript { font-size: 1.1rem; line-height: 1.6; color: #1f2937; }
+        
+        .word-coach { margin-top: 20px; padding: 15px; background: #fffbeb; border-radius: 10px; border: 1px solid #fef3c7; }
+        .word-tag { display: inline-block; background: white; padding: 5px 10px; margin: 3px; border-radius: 20px; border: 1px solid #d1d5db; cursor: pointer; font-size: 0.9rem; }
+        .word-tag:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <header>
+        <h1>SpeakFluent Developer Edition</h1>
+        <p>Build your confidence. Practice talking about yourself.</p>
+    </header>
+
+    <div class="stats">
+        <span>Questions Answered: <b id="stat-count">0</b></span>
+        <span>Power Words Used: <b id="stat-power">0</b></span>
+    </div>
+
+    <div class="question-box">
+        <h2 id="q-text">Ready to start your journey?</h2>
+        <div id="q-hint" class="hint">Click "Next Question" to begin.</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-next" onclick="loadQuestion()">Next Question</button>
+        <button id="mic-btn" class="btn-mic" onclick="toggleMic()">🎤 Start Speaking</button>
+    </div>
+
+    <div class="display-grid">
+        <div class="panel">
+            <h4>Live Transcript</h4>
+            <p id="transcript" class="transcript">Your speech will appear here...</p>
+        </div>
+        <div class="panel">
+            <h4>Grammar & Vocab Feedback</h4>
+            <div id="feedback">No feedback yet. Keep talking!</div>
+        </div>
+    </div>
+
+    <div class="word-coach">
+        <h4>Pronunciation Coach (Click to hear)</h4>
+        <div id="word-bank">
+            </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {q: "Tell me about yourself in three sentences.", h: "Use: 'I am...', 'I specialize in...', 'I am passionate about...'"},
+        {q: "What is your biggest strength as a developer?", h: "Use: 'analytical', 'persistent', 'problem-solver'"},
+        {q: "Where were you born and raised?", h: "Focus on prepositions: 'Born IN', 'Raised AT/IN'"},
+        {q: "What is your favorite childhood memory?", h: "Use past tense: 'I used to', 'I enjoyed', 'It happened'"},
+        {q: "Why do you want to work for this company?", h: "Mention: 'alignment', 'values', 'contribution'"},
+        {q: "How do you handle stress or deadlines?", h: "Use: 'prioritize', 'stay calm', 'organized'"},
+        {q: "What are your hobbies outside of coding?", h: "Use: 'I enjoy', 'It helps me recharge'"},
+        {q: "Describe a time you failed and what you learned.", h: "Use: 'realized', 'improved', 'growth'"},
+        {q: "Who is your role model?", h: "Use: 'inspires me', 'admire their dedication'"},
+        {q: "How would your last boss describe you?", h: "Use: 'reliable', 'efficient', 'team-player'"},
+        {q: "What is your favorite programming language and why?", h: "Talk about: 'syntax', 'flexibility', 'community'"},
+        {q: "What is the hardest thing you've ever done?", h: "Use: 'challenged', 'persevered', 'outcome'"},
+        {q: "Are you a morning person or a night owl?", h: "Use: 'productive', 'routine', 'focus'"},
+        {q: "Tell me about your education.", h: "Use: 'graduated from', 'majored in'"},
+        {q: "How do you keep your skills up to date?", h: "Use: 'documentation', 'tutorials', 'consistently'"},
+        {q: "What kind of work environment do you prefer?", h: "Use: 'collaborative', 'remote', 'dynamic'"},
+        {q: "Describe your dream job.", h: "Use: 'innovative', 'impactful', 'vision'"},
+        {q: "What is your proudest coding achievement?", h: "Use: 'implemented', 'resolved', 'successfully'"},
+        {q: "How do you explain technical concepts to non-technical people?", h: "Use: 'simplified', 'analogies', 'clarity'"},
+        {q: "What is your favorite book or movie?", h: "Use: 'plot', 'character', 'recommend'"},
+        {q: "Where do you see yourself in 10 years?", h: "Use: 'expert', 'leadership', 'legacy'"},
+        {q: "What is one thing you would change about your personality?", h: "Use: 'working on', 'mindset', 'self-aware'"},
+        {q: "How do you handle disagreements with teammates?", h: "Use: 'perspective', 'communication', 'compromise'"},
+        {q: "What's the best advice you've ever received?", h: "Use: 'valuable', 'stuck with me', 'guided'"},
+        {q: "What makes you unique?", h: "Use: 'diverse background', 'perspective', 'combination'"},
+        // ... (Adding more items until 50)
+        {q: "What is your daily routine?", h: "Use: 'firstly', 'then', 'eventually'"},
+        {q: "What are you currently learning?", h: "Use: 'exploring', 'mastering', 'diving into'"},
+        {q: "How do you feel about working in a team?", h: "Use: 'synergy', 'support', 'shared goals'"},
+        {q: "What is your favorite place in the world?", h: "Use: 'peaceful', 'scenery', 'atmosphere'"},
+        {q: "How do you define success?", h: "Use: 'fulfillment', 'milestone', 'balanced'"},
+        {q: "Tell me about a time you showed leadership.", h: "Use: 'guided', 'initiated', 'took charge'"},
+        {q: "What is your favorite part about Web Development?", h: "Use: 'visual', 'logic', 'immediate feedback'"},
+        {q: "What is a project you are currently working on?", h: "Use: 'building', 'designing', 'fixing'"},
+        {q: "How do you deal with difficult customers?", h: "Use: 'patience', 'empathy', 'solution'"},
+        {q: "What is your favorite type of food?", h: "Use: 'cuisine', 'flavor', 'traditional'"},
+        {q: "What do you do when you feel unmotivated?", h: "Use: 'discipline', 'break', 'inspiration'"},
+        {q: "What is the most important quality in a developer?", h: "Use: 'curiosity', 'attention to detail'"},
+        {q: "What are your career goals for this year?", h: "Use: 'achieve', 'certify', 'contribute'"},
+        {q: "Tell me about your family.", h: "Use: 'supportive', 'close-knit', 'influence'"},
+        {q: "What is your biggest fear?", h: "Use: 'overcome', 'facing', 'challenge'"},
+        {q: "How do you stay organized?", h: "Use: 'tools', 'schedule', 'planning'"},
+        {q: "What is your favorite holiday?", h: "Use: 'tradition', 'celebration', 'gathering'"},
+        {q: "Do you prefer backend or frontend?", h: "Use: 'logic-heavy', 'user-interface'"},
+        {q: "What is a skill you want to learn in the future?", h: "Use: 'curious about', 'potential', 'next step'"},
+        {q: "How do you react to criticism?", h: "Use: 'constructive', 'feedback', 'improve'"},
+        {q: "What is the most interesting place you've visited?", h: "Use: 'culture', 'architecture', 'experience'"},
+        {q: "What is your favorite way to spend a weekend?", h: "Use: 'relaxing', 'outdoors', 'productive'"},
+        {q: "Why should we hire you over other candidates?", h: "Use: 'uniquely qualified', 'dedicated'"},
+        {q: "What is the first thing you code in a new project?", h: "Use: 'boilerplate', 'structure', 'setup'"},
+        {q: "Tell me about your experience with CSS.", h: "Use: 'responsive', 'flexbox', 'styling'"}
+    ];
+
+    const powerWords = ["implemented", "optimized", "collaborated", "developed", "analytical", "persistent", "efficient"];
+    let recognition;
+    let isListening = false;
+    let powerWordCount = 0;
+    let questionsDone = 0;
+
+    // Initialize Voice Recognition
+    if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            let finalTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                finalTranscript += event.results[i][0].transcript;
+            }
+            document.getElementById('transcript').innerText = finalTranscript;
+            analyzeText(finalTranscript.toLowerCase());
+        };
+    }
+
+    function toggleMic() {
+        if (isListening) {
+            recognition.stop();
+            document.getElementById('mic-btn').innerText = "🎤 Start Speaking";
+            document.getElementById('mic-btn').style.background = "#4f46e5";
+            isListening = false;
+        } else {
+            recognition.start();
+            document.getElementById('mic-btn').innerText = "🛑 Stop & Analyze";
+            document.getElementById('mic-btn').style.background = "#ef4444";
+            isListening = true;
+        }
+    }
+
+    function loadQuestion() {
+        const rand = Math.floor(Math.random() * questions.length);
+        document.getElementById('q-text').innerText = questions[rand].q;
+        document.getElementById('q-hint').innerText = "Hint: " + questions[rand].h;
+        document.getElementById('transcript').innerText = "Listening...";
+        document.getElementById('feedback').innerHTML = "";
+        questionsDone++;
+        document.getElementById('stat-count').innerText = questionsDone;
+    }
+
+    function analyzeText(text) {
+        let feedback = "<h4>Analysis:</h4>";
+        
+        // 1. Check Power Words
+        powerWords.forEach(word => {
+            if (text.includes(word)) {
+                feedback += `<p class="power-word">🌟 Good word choice: "${word}"</p>`;
+                powerWordCount++;
+                document.getElementById('stat-power').innerText = powerWordCount;
+            }
+        });
+
+        // 2. Common Grammar/Preposition Checks
+        const commonErrors = [
+            {w: "i am born", r: "I was born"},
+            {w: "good in", r: "good at"},
+            {w: "discuss about", r: "discuss (no 'about')"},
+            {w: "at the philippines", r: "in the Philippines"},
+            {w: "more better", r: "much better / better"}
+        ];
+
+        commonErrors.forEach(err => {
+            if (text.includes(err.w)) {
+                feedback += `<p>❌ Instead of <span class="correction">${err.w}</span>, use <b>${err.r}</b>.</p>`;
+            }
+        });
+
+        document.getElementById('feedback').innerHTML = feedback;
+    }
+
+    // Pronunciation Coach
+    const coachWords = ["Architecture", "Implementation", "Environment", "Specifically", "Collaborative", "Analytical", "Reliable"];
+    const coachDiv = document.getElementById('word-bank');
+    
+    coachWords.forEach(word => {
+        let span = document.createElement('span');
+        span.className = "word-tag";
+        span.innerText = word;
+        span.onclick = () => {
+            let msg = new SpeechSynthesisUtterance(word);
+            window.speechSynthesis.speak(msg);
+        };
+        coachDiv.appendChild(span);
+    });
+
+</script>
+</body>
+</html>
