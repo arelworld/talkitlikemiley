@@ -216,7 +216,28 @@
             font-size: 0.9rem;
             margin-left: 10px;
         }
-        
+
+        /* Add these styles to your existing CSS */
+.opt-btn.selected {
+    background-color: #e0f2fe !important;
+    border-color: #0ea5e9 !important;
+    font-weight: bold;
+}
+
+.exam-mode-notice {
+    background: #fef3c7;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border-left: 4px solid #f59e0b;
+    display: none;
+}
+
+.mode-info {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-left: 10px;
+}
         /* Responsive */
         @media (max-width: 768px) {
             .feedback-grid, .options-container {
@@ -261,15 +282,27 @@
         <button onclick="loadNextSpeakQ()" style="margin-top: 20px; padding: 10px 20px; cursor:pointer;">Next Question →</button>
     </div>
 
-    <div id="grammar" class="content-section">
-       <div class="score-sticky">
-    Your Current Score: <span id="current-score">0</span> / <span id="total-questions">0</span>
-    <div class="progress-bar">
-        <div class="progress-fill" id="score-progress"></div>
+   <div id="grammar" class="content-section">
+    <!-- ADD THIS TEST MODE SELECTOR -->
+    <div style="margin: 15px 0; padding: 15px; background: #f0f9ff; border-radius: 10px;">
+        <label style="font-weight: bold; color: #1e40af;">Test Mode:</label>
+        <select id="test-mode" onchange="changeTestMode()" style="margin-left: 10px; padding: 8px 15px; border-radius: 6px; border: 2px solid #cbd5e1;">
+            <option value="immediate">Immediate Feedback (Learn Mode)</option>
+            <option value="delayed">Answer All First (Exam Mode)</option>
+        </select>
+        <button onclick="showResults()" id="show-results-btn" style="margin-left: 20px; padding: 8px 20px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer; display: none;">
+            📊 Show Results
+        </button>
     </div>
-    <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
-</div>
-<h2>Grammar Proficiency Test <span class="question-counter" id="question-counter">Questions</span></h2>
+    
+    <div class="score-sticky">
+        Your Current Score: <span id="current-score">0</span> / <span id="total-questions">0</span>
+        <div class="progress-bar">
+            <div class="progress-fill" id="score-progress"></div>
+        </div>
+        <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
+    </div>
+    <h2>Grammar Proficiency Test <span class="question-counter" id="question-counter">Questions</span></h2>
         <div id="grammar-quiz-list">
             <!-- Grammar questions will be loaded here -->
         </div>
@@ -1110,15 +1143,22 @@
 { q: "He ___ that he would be late.", options: ["told", "said", "asked", "ordered"], a: 2, explanation: "✅ CORRECT: 'Said' is used when we don't mention the listener. ❌ 'Told' would require an object (e.g., 'He told me...')." },
         
     ];
-
-    let currentScore = 0;
-    let answeredCount = 0;
+// Add these variables with your other variables
+let currentScore = 0;
+let answeredCount = 0;
+let testMode = 'immediate';
+let userAnswers = []; // Will store user's answers in exam mode
+    // let currentScore = 0;
+    // let answeredCount = 0;
 
    function loadGrammarTest() {
     const list = document.getElementById('grammar-quiz-list');
     
     // Clear previous content
     list.innerHTML = '';
+    
+    // Initialize userAnswers array
+    userAnswers = new Array(grammarData.length).fill(null);
     
     grammarData.forEach((item, idx) => {
         const div = document.createElement('div');
@@ -1136,49 +1176,138 @@
         list.appendChild(div);
     });
     
-    // UPDATE: Show actual question count
+    // Show actual question count
     document.getElementById('question-counter').textContent = grammarData.length + ' Questions';
     document.getElementById('total-questions').textContent = grammarData.length;
     
+    // Reset scores
+    currentScore = 0;
+    answeredCount = 0;
     updateScoreDisplay();
 }
 
+    // NEW FUNCTION: Change test mode
+function changeTestMode() {
+    testMode = document.getElementById('test-mode').value;
+    const resultsBtn = document.getElementById('show-results-btn');
+    
+    if (testMode === 'delayed') {
+        resultsBtn.style.display = 'inline-block';
+        alert("📝 Exam Mode: Answer all questions first, then click 'Show Results' to see explanations.");
+    } else {
+        resultsBtn.style.display = 'none';
+        // If switching back to immediate mode, reset to show answers
+        resetTest();
+    }
+}
+
+// NEW FUNCTION: Show results in exam mode
+function showResults() {
+    if (testMode !== 'delayed') return;
+    
+    // Calculate final score
+    currentScore = 0;
+    grammarData.forEach((item, idx) => {
+        if (userAnswers[idx] === item.a) {
+            currentScore++;
+        }
+        
+        // Show all explanations
+        const explanationBox = document.getElementById(`exp${idx}`);
+        const btns = document.querySelectorAll(`#g${idx} .opt-btn`);
+        const quizItem = document.getElementById(`quiz-item-${idx}`);
+        
+        // Mark correct/incorrect
+        btns.forEach((btn, btnIdx) => {
+            btn.disabled = true;
+            if (btnIdx === item.a) {
+                btn.classList.add('correct');
+            } else if (btnIdx === userAnswers[idx] && btnIdx !== item.a) {
+                btn.classList.add('wrong');
+            }
+        });
+        
+        // Show explanation
+        if (userAnswers[idx] === item.a) {
+            explanationBox.innerHTML = `<span style="color:var(--success)">✅ CORRECT!</span><br>${item.explanation}`;
+        } else if (userAnswers[idx] === null) {
+            explanationBox.innerHTML = `<span style="color:var(--warning)">⏸️ NOT ATTEMPTED</span><br>${item.explanation}`;
+        } else {
+            explanationBox.innerHTML = `<span style="color:var(--danger)">❌ INCORRECT</span><br>${item.explanation}`;
+        }
+        explanationBox.classList.add('show');
+    });
+    
+    updateScoreDisplay();
+    alert(`🎯 Exam Complete!\nYour score: ${currentScore} out of ${grammarData.length} (${Math.round((currentScore/grammarData.length)*100)}%)`);
+}
+
+// UPDATE resetTest() function if you have it
+function resetTest() {
+    currentScore = 0;
+    answeredCount = 0;
+    userAnswers = new Array(grammarData.length).fill(null);
+    loadGrammarTest();
+}
+
     function checkGrammar(qIdx, oIdx) {
+    // Store user's answer
+    userAnswers[qIdx] = oIdx;
+    
+    if (testMode === 'immediate') {
+        // IMMEDIATE FEEDBACK MODE (Original behavior)
         const parent = document.getElementById(`g${qIdx}`);
         const btns = parent.querySelectorAll('.opt-btn');
         const explanationBox = document.getElementById(`exp${qIdx}`);
         const quizItem = document.getElementById(`quiz-item-${qIdx}`);
         
-        // Mark as answered
         quizItem.classList.add('answered');
         
-        // Check answer
         if (oIdx === grammarData[qIdx].a) {
             btns[oIdx].classList.add('correct');
             currentScore++;
             answeredCount++;
-            
-            // Show success explanation
             explanationBox.innerHTML = `<span style="color:var(--success)">✅ CORRECT!</span><br>${grammarData[qIdx].explanation}`;
         } else {
             btns[oIdx].classList.add('wrong');
             btns[grammarData[qIdx].a].classList.add('correct');
             answeredCount++;
-            
-            // Show error explanation
             explanationBox.innerHTML = `<span style="color:var(--danger)">❌ INCORRECT</span><br>${grammarData[qIdx].explanation}`;
         }
         
-        // Disable all buttons
         btns.forEach(b => b.disabled = true);
-        
-        // Show explanation
         explanationBox.classList.add('show');
+        updateScoreDisplay();
         
-        // Update score display
+    } else if (testMode === 'delayed') {
+        // EXAM MODE (Delayed feedback)
+        const quizItem = document.getElementById(`quiz-item-${qIdx}`);
+        const btns = document.querySelectorAll(`#g${qIdx} .opt-btn`);
+        
+        // Mark as answered
+        quizItem.classList.add('answered');
+        
+        // Remove selected class from all buttons in this question
+        btns.forEach(btn => {
+            btn.classList.remove('selected');
+            btn.disabled = false; // Allow changing answers in exam mode
+        });
+        
+        // Add selected class to chosen button
+        btns[oIdx].classList.add('selected');
+        
+        // Count as answered if it wasn't before
+        if (userAnswers[qIdx] === null) {
+            answeredCount++;
+        }
+        
+        // Don't show explanation yet
+        const explanationBox = document.getElementById(`exp${qIdx}`);
+        explanationBox.classList.remove('show');
+        
         updateScoreDisplay();
     }
-
+}
   function updateScoreDisplay() {
     document.getElementById('current-score').innerText = currentScore;
     
@@ -1199,13 +1328,21 @@
         else message += "Review the explanations and try again! 📚";
         messageEl.innerHTML = message;
     } else {
-        messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered`;
+        if (testMode === 'delayed') {
+            messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered (Exam Mode - Click 'Show Results' when done)`;
+        } else {
+            messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered`;
+        }
     }
 }
 
-    // Initialize
+   // Initialize
+window.onload = function() {
     loadGrammarTest();
     loadNextSpeakQ();
+    // Initialize test mode
+    document.getElementById('test-mode').value = 'immediate';
+};
 </script>
 
 </body>
