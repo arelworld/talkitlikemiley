@@ -262,14 +262,14 @@
     </div>
 
     <div id="grammar" class="content-section">
-        <div class="score-sticky">
-            Your Current Score: <span id="current-score">0</span> / 230
-            <div class="progress-bar">
-                <div class="progress-fill" id="score-progress"></div>
-            </div>
-            <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
-        </div>
-        <h2>Grammar Proficiency Test <span class="question-counter">230 Questions</span></h2>
+       <div class="score-sticky">
+    Your Current Score: <span id="current-score">0</span> / <span id="total-questions">0</span>
+    <div class="progress-bar">
+        <div class="progress-fill" id="score-progress"></div>
+    </div>
+    <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
+</div>
+<h2>Grammar Proficiency Test <span class="question-counter" id="question-counter">Questions</span></h2>
         <div id="grammar-quiz-list">
             <!-- Grammar questions will be loaded here -->
         </div>
@@ -1114,25 +1114,34 @@
     let currentScore = 0;
     let answeredCount = 0;
 
-    function loadGrammarTest() {
-        const list = document.getElementById('grammar-quiz-list');
-        grammarData.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = 'quiz-item';
-            div.id = `quiz-item-${idx}`;
-            div.innerHTML = `
-                <p><b>${idx + 1}. ${item.q}</b></p>
-                <div class="options-container" id="g${idx}">
-                    ${item.options.map((opt, oIdx) => 
-                        `<button class="opt-btn" onclick="checkGrammar(${idx}, ${oIdx})">${opt}</button>`
-                    ).join('')}
-                </div>
-                <div class="explanation-box" id="exp${idx}"></div>
-            `;
-            list.appendChild(div);
-        });
-        updateScoreDisplay();
-    }
+   function loadGrammarTest() {
+    const list = document.getElementById('grammar-quiz-list');
+    
+    // Clear previous content
+    list.innerHTML = '';
+    
+    grammarData.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-item';
+        div.id = `quiz-item-${idx}`;
+        div.innerHTML = `
+            <p><b>${idx + 1}. ${item.q}</b></p>
+            <div class="options-container" id="g${idx}">
+                ${item.options.map((opt, oIdx) => 
+                    `<button class="opt-btn" onclick="checkGrammar(${idx}, ${oIdx})">${opt}</button>`
+                ).join('')}
+            </div>
+            <div class="explanation-box" id="exp${idx}"></div>
+        `;
+        list.appendChild(div);
+    });
+    
+    // UPDATE: Show actual question count
+    document.getElementById('question-counter').textContent = grammarData.length + ' Questions';
+    document.getElementById('total-questions').textContent = grammarData.length;
+    
+    updateScoreDisplay();
+}
 
     function checkGrammar(qIdx, oIdx) {
         const parent = document.getElementById(`g${qIdx}`);
@@ -1170,29 +1179,29 @@
         updateScoreDisplay();
     }
 
-    function updateScoreDisplay() {
-        document.getElementById('current-score').innerText = currentScore;
-        
-        // Update progress bar
-        const progress = (answeredCount / grammarData.length) * 100;
-        document.getElementById('score-progress').style.width = `${progress}%`;
-        
-        // Update message
-        const messageEl = document.getElementById('score-message');
-        if (answeredCount === 0) {
-            messageEl.innerHTML = "Start answering questions!";
-        } else if (answeredCount === grammarData.length) {
-            const percentage = Math.round((currentScore / grammarData.length) * 100);
-            let message = `Test completed! Score: ${percentage}% - `;
-            if (percentage >= 90) message += "Excellent! 🎉";
-            else if (percentage >= 70) message += "Good job! 👍";
-            else if (percentage >= 50) message += "Keep practicing! 💪";
-            else message += "Review the explanations and try again! 📚";
-            messageEl.innerHTML = message;
-        } else {
-            messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered`;
-        }
+  function updateScoreDisplay() {
+    document.getElementById('current-score').innerText = currentScore;
+    
+    // Update progress bar
+    const progress = (answeredCount / grammarData.length) * 100;
+    document.getElementById('score-progress').style.width = `${progress}%`;
+    
+    // Update message
+    const messageEl = document.getElementById('score-message');
+    if (answeredCount === 0) {
+        messageEl.innerHTML = "Start answering questions!";
+    } else if (answeredCount === grammarData.length) {
+        const percentage = Math.round((currentScore / grammarData.length) * 100);
+        let message = `Test completed! Score: ${percentage}% - `;
+        if (percentage >= 90) message += "Excellent! 🎉";
+        else if (percentage >= 70) message += "Good job! 👍";
+        else if (percentage >= 50) message += "Keep practicing! 💪";
+        else message += "Review the explanations and try again! 📚";
+        messageEl.innerHTML = message;
+    } else {
+        messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered`;
     }
+}
 
     // Initialize
     loadGrammarTest();
