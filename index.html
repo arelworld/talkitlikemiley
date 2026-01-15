@@ -263,13 +263,13 @@
 
     <div id="grammar" class="content-section">
         <div class="score-sticky">
-            Your Current Score: <span id="current-score">0</span> / 50
+            Your Current Score: <span id="current-score">0</span> / 230
             <div class="progress-bar">
                 <div class="progress-fill" id="score-progress"></div>
             </div>
             <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
         </div>
-        <h2>Grammar Proficiency Test <span class="question-counter">50 Questions</span></h2>
+        <h2>Grammar Proficiency Test <span class="question-counter">230 Questions</span></h2>
         <div id="grammar-quiz-list">
             <!-- Grammar questions will be loaded here -->
         </div>
@@ -712,7 +712,403 @@
             options: ["be", "being", "been", "have been"], 
             a: 1,
             explanation: "✅ CORRECT: After 'object to' use gerund (-ing). ❌ Base form 'be' is incorrect."
-        }
+        },
+
+        { q: "She ___ to the gym every morning before work.", options: ["go", "goes", "is going", "has gone"], a: 2, explanation: "✅ CORRECT: 'Goes' is the present simple form used for habitual actions. ❌ 'Go' is for plural subjects; 'is going' implies a specific action happening right now." },
+
+{ q: "I ___ my homework when the lights went out.", options: ["did", "was doing", "have done", "done"], a: 2, explanation: "✅ CORRECT: The past continuous ('was doing') describes an action in progress interrupted by another event. ❌ 'Did' implies the action was completed before the interruption." },
+
+{ q: "They ___ in London for ten years now.", options: ["live", "are living", "have lived", "lived"], a: 3, explanation: "✅ CORRECT: Present perfect ('have lived') connects a past action to the present. ❌ 'Lived' implies they no longer live there; 'are living' doesn't emphasize the duration." },
+
+{ q: "By the time you arrive, we ___ dinner.", options: ["will finish", "will have finished", "finish", "are finishing"], a: 2, explanation: "✅ CORRECT: Future perfect ('will have finished') is used for actions completed before a specific time in the future. ❌ 'Will finish' suggests the action starts when you arrive." },
+
+{ q: "Listen! The birds ___ in the garden.", options: ["sing", "are singing", "sings", "sang"], a: 2, explanation: "✅ CORRECT: 'Are singing' (present continuous) is used for actions happening at the moment of speaking. ❌ 'Sing' describes a general fact, not a current action." },
+
+{ q: "He ___ never ___ to Japan before this trip.", options: ["has... been", "had... been", "is... been", "was... been"], a: 2, explanation: "✅ CORRECT: Past perfect ('had been') is used to describe an experience occurring before another past event. ❌ 'Has been' is present perfect and doesn't fit the 'before this trip' context." },
+
+{ q: "Water ___ at 100 degrees Celsius.", options: ["boil", "boils", "is boiling", "boiled"], a: 2, explanation: "✅ CORRECT: Present simple is used for scientific facts and general truths. ❌ 'Is boiling' implies a specific pot of water right now; 'boiled' is past tense." },
+
+{ q: "Next month, I ___ for this company for five years.", options: ["will work", "will be working", "will have been working", "work"], a: 3, explanation: "✅ CORRECT: Future perfect continuous is used to emphasize the duration of an action up to a point in the future. ❌ 'Will work' describes a simple future intention." },
+
+{ q: "I ___ a very interesting book lately.", options: ["read", "was reading", "have been reading", "am reading"], a: 3, explanation: "✅ CORRECT: Present perfect continuous ('have been reading') highlights a recent ongoing activity. ❌ 'Read' is past/habitual; 'am reading' is happening exactly now." },
+
+{ q: "Last night, we ___ a movie and then went to bed.", options: ["watch", "watched", "were watching", "have watched"], a: 2, explanation: "✅ CORRECT: Past simple ('watched') is used for completed actions in a sequence. ❌ 'Were watching' would imply the action was interrupted." },
+
+{ q: "The train ___ at 9:00 PM tonight.", options: ["leaves", "is leaving", "has left", "leave"], a: 1, explanation: "✅ CORRECT: Present simple ('leaves') is used for fixed schedules or timetables. ❌ 'Is leaving' is for personal plans; 'leave' is for plural subjects." },
+
+{ q: "I ___ to the radio when I heard the news.", options: ["listened", "was listening", "have listened", "am listening"], a: 2, explanation: "✅ CORRECT: Past continuous ('was listening') describes a background action in progress. ❌ 'Listened' implies a completed action rather than an ongoing one." },
+
+{ q: "We ___ each other since we were children.", options: ["know", "are knowing", "have known", "knew"], a: 3, explanation: "✅ CORRECT: 'Know' is a stative verb; present perfect ('have known') shows a state starting in the past and continuing now. ❌ 'Are knowing' is grammatically incorrect." },
+
+{ q: "By next year, she ___ her degree.", options: ["finishes", "will finish", "will have finished", "is finishing"], a: 3, explanation: "✅ CORRECT: Future perfect ('will have finished') marks an action completed before a future point. ❌ 'Will finish' doesn't emphasize completion by a deadline." },
+
+{ q: "I ___ my wallet. Have you seen it?", options: ["lose", "lost", "have lost", "was losing"], a: 3, explanation: "✅ CORRECT: Present perfect ('have lost') is used for a past action with a result in the present. ❌ 'Lost' implies a specific past time; 'lose' is habitual." },
+
+{ q: "It ___ all day yesterday.", options: ["rains", "rained", "was raining", "has rained"], a: 2, explanation: "✅ CORRECT: Past simple ('rained') is used for a completed period of time in the past. ❌ 'Rains' is for habits; 'has rained' cannot be used with 'yesterday'." },
+
+{ q: "While he ___ for the bus, it started to pour.", options: ["waits", "waited", "was waiting", "has waited"], a: 3, explanation: "✅ CORRECT: Past continuous ('was waiting') describes a longer action interrupted by a shorter one. ❌ 'Waits' is present tense; 'waited' doesn't show the 'while' duration." },
+
+{ q: "I ___ you as soon as I arrive.", options: ["call", "will call", "am calling", "have called"], a: 2, explanation: "✅ CORRECT: Future simple ('will call') is used for promises/intentions made at the moment. ❌ 'Call' is present; 'have called' is past." },
+
+{ q: "The chef ___ the soup to see if it needs salt.", options: ["tastes", "is tasting", "has tasted", "taste"], a: 2, explanation: "✅ CORRECT: While 'taste' is usually stative, here it is an active movement, so present continuous is used. ❌ 'Tastes' would mean the soup has a specific flavor." },
+
+{ q: "She ___ French for two years before she moved to Paris.", options: ["studied", "has studied", "had been studying", "studies"], a: 3, explanation: "✅ CORRECT: Past perfect continuous emphasizes the duration of an action before another past event. ❌ 'Has studied' is present perfect." },
+
+{ q: "The earth ___ around the sun.", options: ["go", "goes", "is going", "went"], a: 2, explanation: "✅ CORRECT: Present simple ('goes') is used for universal truths. ❌ 'Go' is for plural; 'is going' implies a temporary movement." },
+
+{ q: "I ___ my keys. Can you help me find them?", options: ["forget", "forgot", "have forgotten", "am forgetting"], a: 3, explanation: "✅ CORRECT: Present perfect links the past action (forgetting) to the present situation (not having keys). ❌ 'Forgot' is just a past fact." },
+
+{ q: "We ___ for an hour when the car broke down.", options: ["drove", "were driving", "had been driving", "have been driving"], a: 3, explanation: "✅ CORRECT: Past perfect continuous ('had been driving') shows an action in progress before a past event. ❌ 'Have been' is present perfect." },
+
+{ q: "Next Tuesday at this time, I ___ on a beach.", options: ["will sit", "will be sitting", "sit", "have sat"], a: 2, explanation: "✅ CORRECT: Future continuous ('will be sitting') describes an action in progress at a specific time in the future. ❌ 'Will sit' is for simple future." },
+
+{ q: "How long ___ you ___ English?", options: ["do... study", "are... studying", "have... been studying", "did... study"], a: 3, explanation: "✅ CORRECT: Present perfect continuous is used to ask about the duration of an ongoing action. ❌ 'Do you study' asks about habits." },
+
+{ q: "I ___ a sandwich right now.", options: ["eat", "am eating", "eats", "ate"], a: 2, explanation: "✅ CORRECT: 'Right now' signals the present continuous. ❌ 'Eat' is for habits; 'ate' is past." },
+
+{ q: "He ___ that movie three times already.", options: ["saw", "has seen", "is seeing", "sees"], a: 2, explanation: "✅ CORRECT: Present perfect ('has seen') is used for experiences at an unstated time. ❌ 'Saw' requires a specific past time; 'sees' is for habits." },
+
+{ q: "They ___ soccer every Sunday.", options: ["play", "plays", "are playing", "played"], a: 1, explanation: "✅ CORRECT: Present simple ('play') for habitual actions. ❌ 'Plays' is singular; 'are playing' is for now." },
+
+{ q: "I ___ my breakfast before I left for work.", options: ["eat", "ate", "had eaten", "have eaten"], a: 3, explanation: "✅ CORRECT: Past perfect ('had eaten') shows one past action happened before another past action ('left'). ❌ 'Ate' is okay, but 'had eaten' is more precise." },
+
+{ q: "She ___ on the phone for two hours!", options: ["talks", "is talking", "has been talking", "was talking"], a: 3, explanation: "✅ CORRECT: Present perfect continuous emphasizes the duration of an action still happening. ❌ 'Talks' is a general habit." },
+
+{ q: "If it ___ tomorrow, we will stay home.", options: ["rains", "will rain", "is raining", "rained"], a: 1, explanation: "✅ CORRECT: In the first conditional, the 'if' clause uses present simple for future meaning. ❌ 'Will rain' is incorrect in an 'if' clause." },
+
+{ q: "The kids ___ when their father came home.", options: ["sleep", "slept", "were sleeping", "have slept"], a: 3, explanation: "✅ CORRECT: Past continuous shows an action in progress at a specific past moment. ❌ 'Slept' means they fell asleep when he arrived." },
+
+{ q: "I ___ to the dentist tomorrow afternoon.", options: ["go", "went", "am going", "have gone"], a: 3, explanation: "✅ CORRECT: Present continuous ('am going') is commonly used for fixed future arrangements. ❌ 'Go' is for schedules; 'went' is past." },
+
+{ q: "By the end of this month, he ___ here for a decade.", options: ["will be", "will have been", "is", "has been"], a: 2, explanation: "✅ CORRECT: Future perfect ('will have been') describes a state that will be true at a future point. ❌ 'Will be' lacks the 'duration' nuance." },
+
+{ q: "She ___ her keys for the last thirty minutes.", options: ["looks for", "is looking for", "has been looking for", "looked for"], a: 3, explanation: "✅ CORRECT: 'Has been looking for' is used for an action that started in the past and is still continuing. ❌ 'Is looking' doesn't emphasize duration." },
+
+{ q: "I ___ to the moon if I had the chance.", options: ["will go", "would go", "go", "went"], a: 2, explanation: "✅ CORRECT: This is a second conditional structure using 'would' + base verb for a hypothetical future. ❌ 'Will go' is for real possibilities." },
+
+{ q: "They ___ the bridge by the end of next year.", options: ["will build", "will be building", "will have built", "build"], a: 3, explanation: "✅ CORRECT: Future Perfect ('will have built') is used for an action that will be completed before a specific point in the future. ❌ 'Will build' doesn't guarantee completion." },
+
+{ q: "While you ___ the dishes, I was vacuuming.", options: ["washed", "were washing", "have washed", "wash"], a: 2, explanation: "✅ CORRECT: Past Continuous is used for two simultaneous actions happening at the same time in the past. ❌ 'Washed' implies a sequence." },
+
+{ q: "He ___ never ___ a horse before today.", options: ["has... ridden", "had... ridden", "is... riding", "was... riding"], a: 2, explanation: "✅ CORRECT: Past Perfect ('had ridden') describes an experience prior to a specific point in the past ('today'). ❌ 'Has ridden' is for the present." },
+
+{ q: "The flowers ___ if you don't water them.", options: ["die", "will die", "died", "are dying"], a: 2, explanation: "✅ CORRECT: This is a First Conditional sentence for a real consequence. ❌ 'Die' is for general truths; 'will die' is the specific result here." },
+
+{ q: "She is very good ___ playing the piano.", options: ["in", "at", "with", "on"], a: 2, explanation: "✅ CORRECT: We use 'at' after 'good' or 'bad' to describe a skill. ❌ 'In' or 'with' are common errors when describing talents." },
+
+{ q: "I am interested ___ learning more about history.", options: ["on", "for", "in", "about"], a: 3, explanation: "✅ CORRECT: The adjective 'interested' is always followed by 'in'. ❌ 'About' is a frequent mistake because we 'talk about' things, but we are 'interested in' them." },
+
+{ q: "He apologized ___ being late to the meeting.", options: ["for", "to", "at", "about"], a: 1, explanation: "✅ CORRECT: You apologize 'for' a reason or action. ❌ You apologize 'to' a person (e.g., 'I apologized to her')." },
+
+{ q: "The success of the project depends ___ everyone's hard work.", options: ["of", "in", "on", "from"], a: 3, explanation: "✅ CORRECT: The verb 'depend' is followed by 'on'. ❌ 'Of' is a mistake often made because of translations from other languages." },
+
+{ q: "Are you afraid ___ spiders?", options: ["from", "with", "of", "about"], a: 3, explanation: "✅ CORRECT: 'Afraid' is paired with 'of'. ❌ 'From' is incorrect; 'of' connects the emotion to the source." },
+
+{ q: "I am looking forward ___ meeting you next week.", options: ["to", "for", "at", "on"], a: 1, explanation: "✅ CORRECT: 'Look forward to' is a fixed phrasal verb. Note that it is followed by a gerund (-ing). ❌ 'For' is not used with this expression." },
+
+{ q: "She is married ___ a famous doctor.", options: ["with", "to", "for", "by"], a: 2, explanation: "✅ CORRECT: In English, you are married 'to' someone. ❌ 'With' is a very common error because of the logic of being 'with' a partner." },
+
+{ q: "The city is famous ___ its beautiful parks.", options: ["about", "in", "for", "with"], a: 3, explanation: "✅ CORRECT: 'Famous for' is the standard collocation to describe a reason for fame. ❌ 'About' or 'with' do not fit this adjective." },
+
+{ q: "He is responsible ___ the marketing department.", options: ["of", "for", "to", "with"], a: 2, explanation: "✅ CORRECT: You are responsible 'for' a task or a group. ❌ 'Of' is incorrect, though 'the head of' is a similar alternative." },
+
+{ q: "I am tired ___ waiting for the bus every day.", options: ["with", "from", "of", "by"], a: 3, explanation: "✅ CORRECT: 'Tired of' means you are bored or annoyed with a situation. ❌ 'Tired from' is used for physical exhaustion (e.g., 'tired from running')." },
+
+{ q: "She succeeded ___ passing the exam on her first try.", options: ["in", "at", "on", "for"], a: 1, explanation: "✅ CORRECT: The verb 'succeed' is followed by 'in' + gerund. ❌ 'At' is used for 'good at', but not with the verb 'succeed'." },
+
+{ q: "I don't agree ___ your opinion on this matter.", options: ["to", "with", "on", "for"], a: 2, explanation: "✅ CORRECT: You agree 'with' a person or an opinion. ❌ 'To' is used for agreeing to a proposal or a contract." },
+
+{ q: "Are you worried ___ your upcoming interview?", options: ["about", "for", "on", "of"], a: 1, explanation: "✅ CORRECT: 'Worried about' is the standard way to express anxiety regarding something. ❌ 'Of' is used for 'afraid', not 'worried'." },
+
+{ q: "The car crashed ___ a tree.", options: ["to", "on", "into", "at"], a: 3, explanation: "✅ CORRECT: 'Into' is used to show movement resulting in contact or collision. ❌ 'To' doesn't imply the force of the hit." },
+
+{ q: "He is very proud ___ his daughter's achievements.", options: ["for", "about", "of", "with"], a: 3, explanation: "✅ CORRECT: The adjective 'proud' is followed by 'of'. ❌ 'For' is a common mistake; you feel pride 'for' someone, but you are 'proud of' them." },
+
+{ q: "We arrived ___ the airport two hours early.", options: ["to", "at", "in", "on"], a: 2, explanation: "✅ CORRECT: We use 'arrive at' for specific places (buildings, points). ❌ 'Arrive to' is incorrect; 'arrive in' is for cities or countries." },
+
+{ q: "She complained ___ the cold weather.", options: ["on", "for", "about", "to"], a: 3, explanation: "✅ CORRECT: You complain 'about' a situation. ❌ You complain 'to' a person, but 'about' the problem." },
+
+{ q: "I am not very fond ___ sweet food.", options: ["with", "of", "to", "for"], a: 2, explanation: "✅ CORRECT: 'Fond of' is a fixed expression meaning you like something. ❌ 'With' is not used with 'fond'." },
+
+{ q: "They are shouting ___ each other in the street.", options: ["to", "at", "on", "with"], a: 2, explanation: "✅ CORRECT: 'Shout at' implies anger. ❌ 'Shout to' is used when you want someone to hear you (e.g., because it's noisy)." },
+
+{ q: "The teacher was angry ___ the students for not listening.", options: ["to", "with", "at", "for"], a: 2, explanation: "✅ CORRECT: You are usually angry 'with' a person. ❌ 'At' is sometimes used, but 'with' is the standard for people." },
+
+{ q: "Is she similar ___ her sister?", options: ["with", "as", "to", "like"], a: 3, explanation: "✅ CORRECT: 'Similar' is followed by 'to'. ❌ 'With' is a common error; 'as' is used with 'the same as'." },
+
+{ q: "I'm sorry ___ breaking your vase.", options: ["about", "for", "of", "to"], a: 2, explanation: "✅ CORRECT: 'Sorry for' is used when apologizing for an action. ❌ 'Sorry about' is used for a situation (e.g., 'sorry about the rain')." },
+
+{ q: "Please concentrate ___ your work.", options: ["in", "on", "at", "to"], a: 2, explanation: "✅ CORRECT: 'Concentrate' is always followed by 'on'. ❌ 'In' or 'at' are incorrect for this verb." },
+
+{ q: "He graduated ___ Oxford University in 2020.", options: ["at", "in", "from", "of"], a: 3, explanation: "✅ CORRECT: You graduate 'from' an institution. ❌ 'At' describes where you were, but 'from' is the correct verb collocation." },
+
+{ q: "The book was written ___ a famous author.", options: ["from", "by", "with", "of"], a: 2, explanation: "✅ CORRECT: In passive voice, 'by' introduces the agent (the person who did the action). ❌ 'From' is for origin." },
+
+{ q: "I'm not accustomed ___ waking up so early.", options: ["to", "with", "at", "for"], a: 1, explanation: "✅ CORRECT: 'Accustomed to' is a fixed phrase meaning 'used to'. ❌ 'With' is incorrect here." },
+
+{ q: "She is capable ___ doing much better work.", options: ["to", "for", "of", "with"], a: 3, explanation: "✅ CORRECT: 'Capable' is followed by 'of' + gerund. ❌ 'To' is used with 'able' (e.g., 'able to do'), but not 'capable'." },
+
+{ q: "What is the reason ___ your delay?", options: ["of", "for", "to", "on"], a: 2, explanation: "✅ CORRECT: We say 'the reason for' something. ❌ 'The cause of' uses 'of', but 'reason' uses 'for'." },
+
+{ q: "He is addicted ___ video games.", options: ["with", "to", "on", "for"], a: 2, explanation: "✅ CORRECT: 'Addicted' is followed by 'to'. ❌ 'With' or 'on' are incorrect prepositions for this adjective." },
+
+{ q: "We need to provide them ___ more information.", options: ["to", "for", "with", "about"], a: 3, explanation: "✅ CORRECT: The verb 'provide' follows the pattern: provide (someone) 'with' (something). ❌ 'To' would be 'provide information to someone'." },
+
+ { q: "My father is ___ honest man.", options: ["a", "an", "the", "no article"], a: 2, explanation: "✅ CORRECT: We use 'an' because 'honest' begins with a silent 'h', so the first sound is a vowel. ❌ 'A' is used before consonant sounds." },
+
+{ q: "I am going to ___ United Kingdom next summer.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: Countries with plural names or words like 'Kingdom', 'Republic', or 'States' require 'the'. ❌ Most single-word countries (like France) use no article." },
+
+{ q: "She plays ___ piano beautifully.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: We use 'the' before the names of musical instruments when talking about the ability to play them. ❌ No article is used for sports (e.g., 'play football')." },
+
+{ q: "I saw ___ movie last night. ___ movie was very boring.", options: ["a / The", "the / A", "a / A", "the / The"], a: 1, explanation: "✅ CORRECT: Use 'a' for the first mention (indefinite) and 'the' for the second mention (definite). ❌ Using 'the' first implies the listener already knows which movie." },
+
+{ q: "___ Mount Everest is the highest mountain in the world.", options: ["A", "An", "The", "no article"], a: 4, explanation: "✅ CORRECT: We do not use 'the' with the names of individual mountains. ❌ 'The' is only used for mountain ranges (e.g., The Himalayas)." },
+
+{ q: "She wants to be ___ engineer when she grows up.", options: ["a", "an", "the", "no article"], a: 2, explanation: "✅ CORRECT: Use 'an' because 'engineer' starts with a vowel sound. ❌ 'A' is for consonant sounds; 'the' would imply a specific, already-discussed job." },
+
+{ q: "Breakfast is ___ most important meal of the day.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: Use 'the' before superlative adjectives (e.g., the best, the tallest, the most important). ❌ 'A' cannot be used with superlatives." },
+
+{ q: "I usually have ___ lunch at 1:00 PM.", options: ["a", "an", "the", "no article"], a: 4, explanation: "✅ CORRECT: We do not use articles before the names of meals (breakfast, lunch, dinner) in a general sense. ❌ 'The lunch' would only be used if referring to a specific, special meal." },
+
+{ q: "Paris is ___ capital of France.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: Use 'the' because there is only one capital for France (unique/specific). ❌ 'A' would suggest there are many capitals." },
+
+{ q: "He lives on ___ Smith Street.", options: ["a", "an", "the", "no article"], a: 4, explanation: "✅ CORRECT: We generally do not use articles with the names of streets. ❌ 'The' is used for some major roads or highways, but not typical street names." },
+
+{ q: "Can you pass me ___ salt, please?", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: Use 'the' because we are referring to the specific salt on the table that both people can see. ❌ 'A' cannot be used with uncountable nouns like salt." },
+
+{ q: "I have ___ university degree in biology.", options: ["a", "an", "the", "no article"], a: 1, explanation: "✅ CORRECT: Even though 'u' is a vowel, 'university' starts with a consonant 'y' sound (/juː/). ❌ 'An' is only for vowel sounds, not just vowel letters." },
+
+{ q: "___ Nile is the longest river in Africa.", options: ["A", "An", "The", "no article"], a: 3, explanation: "✅ CORRECT: We use 'the' with the names of rivers, oceans, and seas. ❌ No article is used for lakes, but it is required for rivers." },
+
+{ q: "___ apples are good for your health.", options: ["A", "An", "The", "no article"], a: 4, explanation: "✅ CORRECT: Use no article when talking about plural countable nouns in a general sense. ❌ 'The' would mean a specific group of apples on the table." },
+
+{ q: "My sister is in ___ hospital with a broken leg.", options: ["a", "an", "the", "no article"], a: 4, explanation: "✅ CORRECT: In British English, 'in hospital' means being a patient. ❌ 'In the hospital' is common in American English or if you are just visiting the building." },
+
+{ q: "I like listening to ___ radio while I cook.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: We usually say 'the radio', but 'watch TV' (no article). ❌ No article with radio is grammatically incorrect in this context." },
+
+{ q: "The sun rises in ___ East.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: We use 'the' with cardinal directions (North, South, East, West). ❌ Directions are considered unique points of reference." },
+
+{ q: "Is there ___ ATM near here?", options: ["a", "an", "the", "no article"], a: 2, explanation: "✅ CORRECT: 'ATM' is pronounced starting with the vowel sound 'A' (/eɪ/). ❌ 'A' is used for consonant sounds." },
+
+{ q: "He is ___ tallest boy in the class.", options: ["a", "an", "the", "no article"], a: 3, explanation: "✅ CORRECT: Superlative adjectives (tallest, fastest) always require 'the'. ❌ 'A' tallest would suggest there are many tallest boys." },
+
+{ q: "I am allergic to ___ cats.", options: ["a", "an", "the", "no article"], a: 4, explanation: "✅ CORRECT: Generalizations using plural nouns do not take an article. ❌ 'The cats' would mean you are allergic to a specific group of cats in the room." },
+
+{ q: "You ___ smoke in the hospital. It's strictly forbidden.", options: ["don't have to", "mustn't", "couldn't", "shouldn't"], a: 2, explanation: "✅ CORRECT: 'Mustn't' is used for prohibition (it's against the rules). ❌ 'Don't have to' means it is optional, which isn't true for hospital rules." },
+
+{ q: "I ___ speak Spanish fluently when I was a child.", options: ["can", "could", "must", "should"], a: 2, explanation: "✅ CORRECT: 'Could' is the past tense of 'can' used to describe past ability. ❌ 'Can' is for present ability; 'should' is for advice." },
+
+{ q: "It's a very formal party. You ___ wear a suit.", options: ["must", "might", "could", "can"], a: 1, explanation: "✅ CORRECT: 'Must' expresses strong necessity or obligation. ❌ 'Might' and 'could' suggest it's just a possibility, which doesn't fit the 'formal' context." },
+
+{ q: "___ I borrow your pen for a moment?", options: ["Must", "Should", "May", "Would"], a: 3, explanation: "✅ CORRECT: 'May' is a formal and polite way to ask for permission. ❌ 'Must' is for obligation; 'Should' is for asking for advice." },
+
+{ q: "He ___ be at home. His car is in the driveway.", options: ["must", "can't", "shouldn't", "mustn't"], a: 1, explanation: "✅ CORRECT: 'Must' is used here for logical deduction (we are almost certain). ❌ 'Can't' would mean we are certain he is NOT there." },
+
+{ q: "You ___ brush your teeth twice a day.", options: ["should", "might", "could", "may"], a: 1, explanation: "✅ CORRECT: 'Should' is used to give advice or recommendations. ❌ 'Might' and 'could' make the advice sound too optional/weak." },
+
+{ q: "I'm not sure, but it ___ rain later this afternoon.", options: ["must", "might", "should", "has to"], a: 2, explanation: "✅ CORRECT: 'Might' expresses a weak possibility. ❌ 'Must' would mean we are certain it will rain." },
+
+{ q: "You ___ wash the dishes; I've already done them.", options: ["mustn't", "don't have to", "couldn't", "can't"], a: 2, explanation: "✅ CORRECT: 'Don't have to' expresses a lack of necessity (it's not required). ❌ 'Mustn't' would mean it is forbidden to wash them." },
+
+{ q: "___ you help me with this heavy box, please?", options: ["Should", "May", "Can", "Must"], a: 3, explanation: "✅ CORRECT: 'Can' (or 'could') is used for requests. ❌ 'Must' is a command, and 'May' is usually for asking permission for oneself." },
+
+{ q: "She ___ have forgotten about the meeting.", options: ["must", "can", "should", "ought"], a: 1, explanation: "✅ CORRECT: 'Must have + past participle' is a deduction about the past. ❌ 'Can' is not used this way for past deductions; we would use 'could'." },
+
+{ q: "Drivers ___ stop at the red light.", options: ["could", "must", "might", "may"], a: 2, explanation: "✅ CORRECT: 'Must' is for legal obligations. ❌ 'Could' or 'may' would imply that stopping is optional." },
+
+{ q: "I ___ go to the party, but I haven't decided yet.", options: ["must", "may", "have to", "should"], a: 2, explanation: "✅ CORRECT: 'May' is used to express uncertainty/possibility. ❌ 'Must' and 'have to' imply that you are definitely going." },
+
+{ q: "If you want to lose weight, you ___ eat less sugar.", options: ["ought to", "might", "may", "could"], a: 1, explanation: "✅ CORRECT: 'Ought to' is a synonym for 'should' and is used for advice. ❌ 'May' is for permission/possibility." },
+
+{ q: "That ___ be John. He's in New York right now.", options: ["mustn't", "can't", "shouldn't", "might not"], a: 2, explanation: "✅ CORRECT: 'Can't' is used for negative certainty (logical impossibility). ❌ 'Mustn't' is only for prohibition." },
+
+{ q: "We ___ get a taxi; it's too far to walk.", options: ["had better", "might", "may", "could"], a: 1, explanation: "✅ CORRECT: 'Had better' is used for strong advice or warnings about specific situations. ❌ 'May' is too weak here." },
+
+{ q: "I ___ swim when I was five years old.", options: ["can", "could", "may", "might"], a: 2, explanation: "✅ CORRECT: 'Could' is the past of 'can' for general ability. ❌ 'Can' is present tense." },
+
+{ q: "Students ___ use calculators during the math exam.", options: ["mustn't", "don't have to", "haven't", "couldn't"], a: 1, explanation: "✅ CORRECT: 'Mustn't' expresses that something is prohibited by the teacher/exam rules. ❌ 'Don't have to' implies they can use them if they want." },
+
+{ q: "___ you like some coffee?", options: ["Will", "Would", "Should", "Can"], a: 2, explanation: "✅ CORRECT: 'Would you like' is the standard polite formula for offers. ❌ 'Will' is less polite; 'Should' is not used for offers." },
+
+{ q: "He ___ practice more if he wants to win the competition.", options: ["has to", "may", "might", "could"], a: 1, explanation: "✅ CORRECT: 'Has to' expresses an external obligation or necessity for success. ❌ 'May' suggests he has permission to practice." },
+
+{ q: "You ___ have told me you were coming! I would have cooked.", options: ["should", "must", "can", "may"], a: 1, explanation: "✅ CORRECT: 'Should have + past participle' expresses regret about a past action that didn't happen. ❌ 'Must have' is for deduction." },
+
+{ q: "I ___ rather stay home than go out tonight.", options: ["should", "would", "could", "might"], a: 2, explanation: "✅ CORRECT: 'Would rather' is a fixed phrase used to express preference. ❌ Other modals do not follow this pattern with 'rather'." },
+
+{ q: "You ___ be joking! That can't be true.", options: ["must", "should", "may", "can"], a: 1, explanation: "✅ CORRECT: 'Must' is used for an emphatic logical deduction. ❌ 'Should' would be giving advice to joke, which makes no sense." },
+
+{ q: "___ I have a glass of water, please?", options: ["Could", "Must", "Should", "Will"], a: 1, explanation: "✅ CORRECT: 'Could' is a polite way to request something. ❌ 'Must' and 'Should' are grammatically incorrect for a request." },
+
+{ q: "The kids ___ be making that noise; they are at school.", options: ["mustn't", "can't", "shouldn't", "might not"], a: 2, explanation: "✅ CORRECT: 'Can't' is used for logical impossibility (it's impossible because they aren't here). ❌ 'Mustn't' is only for forbidding an action." },
+
+{ q: "We ___ to leave now if we want to catch the train.", options: ["must", "should", "ought", "could"], a: 3, explanation: "✅ CORRECT: 'Ought' is the only modal here that is followed by the 'to' infinitive. ❌ 'Must' and 'should' are followed by the bare infinitive (no 'to')." },
+{ q: "If you heat ice, it ___.", options: ["melts", "will melt", "melted", "would melt"], a: 1, explanation: "✅ CORRECT: This is a Zero Conditional (if + present, present) used for scientific facts. ❌ 'Will melt' is for a specific future event, not a general truth." },
+
+{ q: "If it ___ tomorrow, we will cancel the picnic.", options: ["rain", "rains", "will rain", "rained"], a: 2, explanation: "✅ CORRECT: This is a First Conditional (if + present, will + verb) for a real possibility. ❌ We never use 'will' inside the 'if' clause." },
+
+{ q: "If I ___ you, I would take that job offer.", options: ["am", "was", "were", "be"], a: 3, explanation: "✅ CORRECT: In the Second Conditional, we use 'were' for all subjects (even 'I') to express a hypothetical situation. ❌ 'Was' is common in spoken English but 'were' is the grammatically correct choice for exams." },
+
+{ q: "If she ___ harder, she would have passed the exam.", options: ["studied", "studies", "had studied", "has studied"], a: 3, explanation: "✅ CORRECT: This is a Third Conditional (if + past perfect, would have + V3) for a past regret. ❌ 'Studied' would be for a second conditional (hypothetical present)." },
+
+{ q: "I would travel the world if I ___ the lottery.", options: ["win", "won", "had won", "will win"], a: 2, explanation: "✅ CORRECT: Second Conditional (if + past, would + verb) for an imaginary current situation. ❌ 'Win' is first conditional; 'had won' is third conditional." },
+
+{ q: "If you ___ water to 100 degrees, it boils.", options: ["heat", "heated", "will heat", "heats"], a: 1, explanation: "✅ CORRECT: Zero Conditional for a universal law. ❌ 'Heated' would imply a hypothetical situation that isn't true." },
+
+{ q: "If they ___ earlier, they wouldn't have missed the train.", options: ["leave", "left", "had left", "were leaving"], a: 3, explanation: "✅ CORRECT: Third Conditional refers to a past event that did not happen. ❌ 'Left' implies a hypothetical present/future (Second Conditional)." },
+
+{ q: "You will get wet if it ___.", options: ["rain", "rains", "will rain", "is raining"], a: 2, explanation: "✅ CORRECT: First Conditional. The 'if' clause uses present simple to refer to a future condition. ❌ 'Will' is redundant and incorrect in the 'if' part." },
+
+{ q: "If I ___ wings, I would fly to the moon.", options: ["have", "had", "had had", "will have"], a: 2, explanation: "✅ CORRECT: Second Conditional for an impossible/imaginary situation. ❌ 'Had had' is for a past impossibility (Third Conditional)." },
+
+{ q: "We ___ have gone to the beach if the weather had been better.", options: ["will", "would", "must", "can"], a: 2, explanation: "✅ CORRECT: Third Conditional result clause requires 'would have' + V3. ❌ 'Will' is only for first conditional; 'must' is for obligation." },
+
+{ q: "If you mix blue and yellow, you ___ green.", options: ["get", "will get", "got", "would get"], a: 1, explanation: "✅ CORRECT: Zero Conditional for a permanent fact or result. ❌ 'Will get' is acceptable but 'get' is better for a constant truth." },
+
+{ q: "I ___ help you if I could.", options: ["will", "would", "shall", "must"], a: 2, explanation: "✅ CORRECT: Second Conditional. Since the condition is 'could' (past), the result must be 'would'. ❌ 'Will' is for real possibilities." },
+
+{ q: "If he ___ so much, he wouldn't have been sick.", options: ["didn't eat", "doesn't eat", "hadn't eaten", "hasn't eaten"], a: 3, explanation: "✅ CORRECT: Third Conditional. 'Hadn't eaten' is the past perfect needed for the 'if' clause. ❌ 'Didn't eat' is for second conditional." },
+
+{ q: "Unless it ___ raining, we will go for a walk.", options: ["stop", "stops", "will stop", "stopped"], a: 2, explanation: "✅ CORRECT: 'Unless' functions like 'if not'. In a first conditional, it takes the present simple. ❌ 'Stop' is for plural subjects; 'stopped' is past." },
+
+{ q: "What ___ you do if you saw a ghost?", options: ["will", "would", "do", "did"], a: 2, explanation: "✅ CORRECT: Second Conditional question (would + if + past) for an imaginary scenario. ❌ 'Will' doesn't match the past tense 'saw'." },
+{ q: "The man ___ lives next door is a famous musician.", options: ["which", "who", "whom", "whose"], a: 2, explanation: "✅ CORRECT: 'Who' is used to refer to people as the subject of the clause. ❌ 'Which' is for objects; 'whose' shows possession." },
+
+{ q: "That is the car ___ I want to buy.", options: ["who", "whom", "whose", "that"], a: 4, explanation: "✅ CORRECT: 'That' or 'which' are used for objects or things. ❌ 'Who' and 'whom' are strictly for people." },
+
+{ q: "Do you know the girl ___ mother is a doctor?", options: ["who", "whom", "whose", "that"], a: 3, explanation: "✅ CORRECT: 'Whose' is the possessive relative pronoun (the girl's mother). ❌ 'Who' would mean the girl is a mother, not that she has a mother who is a doctor." },
+
+{ q: "The hotel ___ we stayed was very expensive.", options: ["which", "where", "that", "who"], a: 2, explanation: "✅ CORRECT: 'Where' is used to refer to a place. ❌ 'Which' would require a preposition (e.g., 'which we stayed IN')." },
+
+{ q: "The woman ___ I met yesterday was very kind.", options: ["whom", "which", "whose", "where"], a: 1, explanation: "✅ CORRECT: 'Whom' is used for people when they are the object of the verb. ❌ 'Which' is for objects; 'where' is for places." },
+
+{ q: "I don't like movies ___ have sad endings.", options: ["who", "whose", "that", "whom"], a: 3, explanation: "✅ CORRECT: 'That' (or 'which') is used for things/movies. ❌ 'Who' and 'whom' are only for people." },
+
+{ q: "Summer is the season ___ I feel most relaxed.", options: ["where", "when", "which", "who"], a: 2, explanation: "✅ CORRECT: 'When' is used to refer to a specific time or period. ❌ 'Where' is for locations; 'which' doesn't fit the time context here." },
+
+{ q: "The student ___ desk is at the front is very bright.", options: ["who", "whose", "whom", "that"], a: 2, explanation: "✅ CORRECT: 'Whose' indicates possession (the student's desk). ❌ 'Who' would mean the student is a desk." },
+
+{ q: "This is the book ___ everyone is talking about.", options: ["who", "which", "whom", "whose"], a: 2, explanation: "✅ CORRECT: 'Which' (or 'that') is used for objects like books. ❌ 'Who' and 'whom' are for people." },
+
+{ q: "The city ___ I was born is very small.", options: ["which", "that", "where", "who"], a: 3, explanation: "✅ CORRECT: 'Where' refers to the location. ❌ 'Which' would need a preposition like 'in' (The city in which I was born)." },
+
+{ q: "That’s the man ___ saved the cat.", options: ["who", "which", "whose", "whom"], a: 1, explanation: "✅ CORRECT: 'Who' is the subject pronoun for people. ❌ 'Whom' is for objects; 'which' is for animals or things." },
+
+{ q: "The reason ___ I am calling is to ask for help.", options: ["when", "where", "why", "which"], a: 3, explanation: "✅ CORRECT: 'Why' is used after the word 'reason' to explain a cause. ❌ 'Which' or 'when' do not express purpose." },
+
+{ q: "The person ___ you should speak to is the manager.", options: ["which", "whom", "whose", "where"], a: 2, explanation: "✅ CORRECT: 'Whom' is technically the correct object pronoun here (speak to him). ❌ 'Which' is for things; 'whose' is possessive." },
+
+{ q: "I have a friend ___ speaks five languages.", options: ["which", "who", "whose", "whom"], a: 2, explanation: "✅ CORRECT: 'Who' is the subject pronoun for a person. ❌ 'Which' is for things; 'whom' is for objects." },
+
+{ q: "The cake ___ she made was delicious.", options: ["who", "whom", "that", "whose"], a: 3, explanation: "✅ CORRECT: 'That' (or 'which') is used for objects. ❌ 'Who' and 'whom' are for people; 'whose' is for possession." },
+{ q: "The letter ___ by Mary yesterday.", options: ["was written", "is written", "wrote", "was writing"], a: 1, explanation: "✅ CORRECT: 'Was written' is the past simple passive. We need 'be' in the past + the past participle. ❌ 'Wrote' is active voice; 'is written' is present tense." },
+
+{ q: "The bridge ___ at the moment.", options: ["is repaired", "is being repaired", "was repaired", "repairs"], a: 2, explanation: "✅ CORRECT: 'Is being repaired' is the present continuous passive. ❌ 'Is repaired' describes a general state, not an action happening right now." },
+
+{ q: "Rice ___ in many Asian countries.", options: ["grows", "is grown", "are grown", "has grown"], a: 2, explanation: "✅ CORRECT: 'Is grown' is the present simple passive. Rice is uncountable, so we use 'is'. ❌ 'Grows' is active voice (rice doesn't grow itself)." },
+
+{ q: "All the tickets ___ before we arrived.", options: ["had been sold", "were sold", "have been sold", "sold"], a: 1, explanation: "✅ CORRECT: 'Had been sold' is the past perfect passive, used for an action completed before another past action. ❌ 'Sold' is active; 'have been sold' is present perfect." },
+
+{ q: "A new road ___ next year.", options: ["will build", "will be built", "is built", "was built"], a: 2, explanation: "✅ CORRECT: 'Will be built' is the future simple passive. ❌ 'Will build' is active; 'is built' is present tense." },
+
+{ q: "The window ___ by the ball.", options: ["broke", "was broken", "is breaking", "has broken"], a: 2, explanation: "✅ CORRECT: 'Was broken' is the past simple passive. ❌ 'Broke' is active voice; 'has broken' would imply the window did the breaking." },
+
+{ q: "This book ___ into twenty languages so far.", options: ["is translated", "was translated", "has been translated", "translates"], a: 3, explanation: "✅ CORRECT: 'Has been translated' is the present perfect passive, used because 'so far' links the past to the present. ❌ 'Was translated' ignores the 'so far' connection." },
+
+{ q: "The suspects ___ by the police right now.", options: ["are questioned", "are being questioned", "were questioned", "question"], a: 2, explanation: "✅ CORRECT: 'Are being questioned' is the present continuous passive for an action in progress. ❌ 'Are questioned' is for habits; 'were' is for the past." },
+
+{ q: "The house ___ in 1920.", options: ["build", "built", "was built", "has been built"], a: 3, explanation: "✅ CORRECT: Past simple passive ('was built') is used for a finished action at a specific past time. ❌ 'Built' is active; 'has been built' doesn't fit a specific year." },
+
+{ q: "The dinner ___ when I arrived.", options: ["was served", "was being served", "served", "is serving"], a: 2, explanation: "✅ CORRECT: 'Was being served' (past continuous passive) shows the action was in progress at that moment. ❌ 'Served' is active; 'is serving' is present." },
+
+{ q: "Spanish ___ in most of South America.", options: ["speaks", "is spoken", "are spoken", "is speaking"], a: 2, explanation: "✅ CORRECT: Present simple passive for a general fact. ❌ 'Speaks' is active; 'are spoken' is plural, but 'Spanish' is singular." },
+
+{ q: "The mistake ___ by the manager.", options: ["noticed", "is noticed", "was noticed", "has noticed"], a: 3, explanation: "✅ CORRECT: 'Was noticed' is the past simple passive. ❌ 'Noticed' is active; 'has noticed' would mean the mistake saw the manager." },
+
+{ q: "The results ___ tomorrow.", options: ["will announce", "will be announced", "are announced", "announced"], a: 2, explanation: "✅ CORRECT: Future simple passive. ❌ 'Will announce' is active voice; 'announced' is past tense." },
+
+{ q: "A lot of coffee ___ in Brazil.", options: ["is produced", "produces", "are produced", "is producing"], a: 1, explanation: "✅ CORRECT: 'Is produced' (present simple passive) for a general fact. Coffee is uncountable. ❌ 'Produces' is active; 'are' is for plural nouns." },
+
+{ q: "The car ___ for two hours.", options: ["is washed", "has been washed", "has been being washed", "was washing"], a: 2, explanation: "✅ CORRECT: 'Has been washed' is the present perfect passive. ❌ 'Has been being washed' is technically possible but almost never used; 'has been washed' is the standard." },
+{ q: "I enjoy ___ to music while I study.", options: ["listening", "to listen", "listen", "listened"], a: 1, explanation: "✅ CORRECT: The verb 'enjoy' is always followed by a gerund (-ing). ❌ 'To listen' is a common mistake; verbs of preference like 'enjoy' and 'dislike' take the gerund." },
+
+{ q: "She promised ___ me back as soon as possible.", options: ["calling", "to call", "call", "to calling"], a: 2, explanation: "✅ CORRECT: 'Promise' is a verb that refers to a future commitment, which requires an infinitive. ❌ 'Calling' is incorrect after 'promise'." },
+
+{ q: "He gave up ___ three years ago.", options: ["to smoke", "smoke", "smoking", "smoked"], a: 3, explanation: "✅ CORRECT: Phrasal verbs (like 'give up') are almost always followed by a gerund. ❌ 'To smoke' is incorrect in this context." },
+
+{ q: "I hope ___ my exams with high marks.", options: ["passing", "to pass", "pass", "to passing"], a: 2, explanation: "✅ CORRECT: 'Hope' expresses a desire for the future and is followed by a to-infinitive. ❌ 'Passing' is not used after 'hope'." },
+
+{ q: "Avoid ___ your phone while driving.", options: ["using", "to use", "use", "to using"], a: 1, explanation: "✅ CORRECT: 'Avoid' must be followed by a gerund. ❌ 'To use' is a frequent error for learners." },
+
+{ q: "I don't mind ___ you with your homework.", options: ["to help", "helping", "help", "helped"], a: 2, explanation: "✅ CORRECT: The expression 'don't mind' is always followed by an -ing form. ❌ 'To help' is grammatically incorrect here." },
+
+{ q: "He decided ___ a new car.", options: ["buying", "to buy", "buy", "bought"], a: 2, explanation: "✅ CORRECT: 'Decide' is followed by a to-infinitive to show the result of a choice. ❌ 'Buying' does not follow 'decide'." },
+
+{ q: "We suggested ___ to the cinema.", options: ["to go", "going", "go", "to going"], a: 2, explanation: "✅ CORRECT: 'Suggest' is never followed by an infinitive; it takes a gerund. ❌ 'To go' is a very common 'trap' error." },
+
+{ q: "I can't afford ___ a new laptop right now.", options: ["buying", "to buy", "buy", "bought"], a: 2, explanation: "✅ CORRECT: 'Afford' is followed by an infinitive. ❌ 'Buying' is incorrect." },
+
+{ q: "Keep ___ until you reach the end of the street.", options: ["walking", "to walk", "walk", "walked"], a: 1, explanation: "✅ CORRECT: 'Keep' (meaning continue) requires a gerund. ❌ 'To walk' is incorrect after this verb." },
+
+{ q: "I managed ___ the project on time.", options: ["completing", "to complete", "complete", "completed"], a: 2, explanation: "✅ CORRECT: 'Manage' is followed by a to-infinitive. ❌ 'Completing' is incorrect." },
+
+{ q: "She refused ___ his apology.", options: ["accepting", "to accept", "accept", "to accepting"], a: 2, explanation: "✅ CORRECT: 'Refuse' takes a to-infinitive. ❌ 'Accepting' is the opposite of the rule for this verb." },
+
+{ q: "I look forward to ___ you soon.", options: ["meet", "to meet", "meeting", "met"], a: 3, explanation: "✅ CORRECT: In the phrase 'look forward to', 'to' is a preposition, so it must be followed by a gerund. ❌ 'To meet' is a common mistake because people see the 'to' and think it's an infinitive." },
+
+{ q: "They practicing ___ the piano every day.", options: ["playing", "to play", "play", "played"], a: 1, explanation: "✅ CORRECT: 'Practice' is followed by a gerund. ❌ 'To play' is incorrect." },
+
+{ q: "He offered ___ me a lift to the airport.", options: ["giving", "to give", "give", "given"], a: 2, explanation: "✅ CORRECT: 'Offer' is followed by a to-infinitive. ❌ 'Giving' is incorrect." },
+
+{ q: "I finished ___ my room an hour ago.", options: ["cleaning", "to clean", "clean", "cleaned"], a: 1, explanation: "✅ CORRECT: 'Finish' is followed by a gerund. ❌ 'To clean' is incorrect." },
+
+{ q: "Do you want ___ out tonight?", options: ["going", "to go", "go", "gone"], a: 2, explanation: "✅ CORRECT: 'Want' is followed by a to-infinitive. ❌ 'Going' is incorrect." },
+
+{ q: "I forgot ___ the door when I left.", options: ["locking", "to lock", "lock", "locked"], a: 2, explanation: "✅ CORRECT: 'Forget to do something' means you didn't do it. ❌ 'Forget locking' would mean you locked it but don't remember doing so." },
+
+{ q: "It's no use ___ about it now.", options: ["crying", "to cry", "cry", "cried"], a: 1, explanation: "✅ CORRECT: The expression 'It's no use' is always followed by a gerund. ❌ 'To cry' is incorrect." },
+
+{ q: "He expects ___ the promotion.", options: ["getting", "to get", "get", "got"], a: 2, explanation: "✅ CORRECT: 'Expect' is followed by a to-infinitive. ❌ 'Getting' is incorrect." },
+{ q: "Direct: 'I am tired.' \nReported: He said that he ___ tired.", options: ["is", "was", "has been", "had been"], a: 2, explanation: "✅ CORRECT: In reported speech, the present simple 'am' backshifts to the past simple 'was'. ❌ 'Is' would only be used if the situation is still true at the exact moment of speaking, but 'was' is the standard rule." },
+
+{ q: "Direct: 'I have finished.' \nReported: She told me she ___.", options: ["finished", "has finished", "had finished", "is finishing"], a: 3, explanation: "✅ CORRECT: The present perfect 'have finished' backshifts to the past perfect 'had finished'. ❌ 'Finished' is the backshift for past simple or present simple." },
+
+{ q: "Direct: 'I will call you.' \nReported: He said he ___ call me.", options: ["will", "would", "shall", "should"], a: 2, explanation: "✅ CORRECT: 'Will' backshifts to 'would' in reported speech. ❌ 'Will' is used in direct speech; 'should' is for advice." },
+
+{ q: "Direct: 'Where do you live?' \nReported: She asked me where I ___.", options: ["live", "did live", "lived", "had lived"], a: 3, explanation: "✅ CORRECT: In reported questions, the tense backshifts and the word order becomes like a statement (subject + verb). ❌ 'Did live' keeps the question word order, which is incorrect in reported speech." },
+
+{ q: "He ___ me that he was busy.", options: ["said", "told", "asked", "spoke"], a: 2, explanation: "✅ CORRECT: 'Told' must be followed by a direct object (me). ❌ 'Said' is used without a direct object (e.g., 'He said that...')." },
+
+{ q: "Direct: 'I saw them yesterday.' \nReported: He said he had seen them ___.", options: ["yesterday", "the day before", "the next day", "that day"], a: 2, explanation: "✅ CORRECT: Time expressions change in reported speech; 'yesterday' becomes 'the day before' or 'the previous day'. ❌ 'Yesterday' is only for direct speech." },
+
+{ q: "Direct: 'Can you help me?' \nReported: She asked if I ___ help her.", options: ["can", "could", "will", "might"], a: 2, explanation: "✅ CORRECT: 'Can' backshifts to 'could'. ❌ 'Might' is the backshift for 'may'." },
+
+{ q: "Direct: 'I am meeting them here.' \nReported: He said he was meeting them ___.", options: ["here", "there", "in this place", "now"], a: 2, explanation: "✅ CORRECT: 'Here' changes to 'there' in reported speech to reflect the change in location. ❌ 'Here' implies the speaker is still in the same spot." },
+
+{ q: "Direct: 'Go away!' \nReported: He told me ___ away.", options: ["go", "to go", "going", "went"], a: 2, explanation: "✅ CORRECT: For imperatives (commands), we use 'told/ordered' + 'to' + infinitive. ❌ 'Went' or 'go' do not follow the reporting command pattern." },
+
+{ q: "Direct: 'I bought a car.' \nReported: She said she ___ a car.", options: ["buys", "bought", "had bought", "has bought"], a: 3, explanation: "✅ CORRECT: Past simple 'bought' backshifts to past perfect 'had bought'. ❌ 'Bought' is sometimes used in informal speech, but 'had bought' is the formal rule." },
+
+{ q: "Direct: 'Don't shout!' \nReported: The teacher told us ___.", options: ["don't shout", "to not shout", "not to shout", "no shouting"], a: 3, explanation: "✅ CORRECT: Negative imperatives are reported using 'not to' + infinitive. ❌ 'To not shout' is split infinitive; 'not to shout' is the standard." },
+
+{ q: "Direct: 'I may be late.' \nReported: He said he ___ be late.", options: ["might", "may", "can", "could"], a: 1, explanation: "✅ CORRECT: 'May' backshifts to 'might'. ❌ 'Could' is the backshift for 'can'." },
+
+{ q: "Direct: 'What are you doing?' \nReported: He asked me what I ___.", options: ["am doing", "was doing", "did", "were doing"], a: 2, explanation: "✅ CORRECT: Present continuous backshifts to past continuous, and the question structure changes to statement order. ❌ 'Were doing' is plural; 'I' takes 'was'." },
+
+{ q: "She ___ to know if I was coming.", options: ["said", "told", "wanted", "asked"], a: 3, explanation: "✅ CORRECT: 'Wanted to know' is a common reporting phrase for questions. ❌ 'Said to know' is not a standard English expression." },
+
+{ q: "Direct: 'I must leave.' \nReported: He said he ___ leave.", options: ["musted", "had to", "would", "should"], a: 2, explanation: "✅ CORRECT: 'Must' often backshifts to 'had to' to show past obligation. ❌ 'Musted' is not a word." },
+
+{ q: "Direct: 'I'll help you tomorrow.' \nReported: She said she would help me ___.", options: ["tomorrow", "the next day", "the day before", "last day"], a: 2, explanation: "✅ CORRECT: 'Tomorrow' changes to 'the next day' or 'the following day'. ❌ 'Tomorrow' is only used if the day hasn't changed yet." },
+
+{ q: "Direct: 'I've been working hard.' \nReported: He said he ___ working hard.", options: ["was", "is", "had been", "has been"], a: 3, explanation: "✅ CORRECT: Present perfect continuous 'has been working' backshifts to past perfect continuous 'had been working'. ❌ 'Was' is just past continuous." },
+
+{ q: "They asked me ___ I could swim.", options: ["weather", "if", "that", "what"], a: 2, explanation: "✅ CORRECT: We use 'if' or 'whether' to report Yes/No questions. ❌ 'Weather' is about the climate; 'that' is for reporting statements." },
+
+{ q: "Direct: 'Stay here.' \nReported: She told me to stay ___.", options: ["here", "there", "now", "then"], a: 2, explanation: "✅ CORRECT: 'Here' changes to 'there'. ❌ 'Then' is the backshift for 'now'." },
+
+{ q: "He ___ that he would be late.", options: ["told", "said", "asked", "ordered"], a: 2, explanation: "✅ CORRECT: 'Said' is used when we don't mention the listener. ❌ 'Told' would require an object (e.g., 'He told me...')." },
+        
     ];
 
     let currentScore = 0;
