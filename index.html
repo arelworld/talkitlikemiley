@@ -232,7 +232,14 @@
     border-left: 4px solid #f59e0b;
     display: none;
 }
+/* Add this to hide the Features tab */
+button[onclick="showTab('features')"] {
+    display: none;
+}
 
+#features.content-section {
+    display: none !important;
+}
 .mode-info {
     font-size: 0.9rem;
     color: #64748b;
