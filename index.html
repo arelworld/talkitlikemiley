@@ -3,39 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpeakFluent AI | Combined Trainer</title>
+    <title>SpeakFluent AI | Enhanced Grammar Trainer</title>
     <style>
-        :root { --primary: #4f46e5; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
-        .app-container { max-width: 900px; width: 100%; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        :root { 
+            --primary: #4f46e5; 
+            --success: #10b981; 
+            --danger: #ef4444; 
+            --warning: #f59e0b;
+            --bg: #f8fafc; 
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .app-container { 
+            max-width: 1000px; 
+            width: 100%; 
+            background: white; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+        }
         
         /* Navigation Tabs */
-        .tabs { display: flex; background: #1e293b; }
-        .tab-btn { flex: 1; padding: 18px; border: none; background: none; color: #94a3b8; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-        .tab-btn.active { color: white; border-bottom: 4px solid var(--primary); background: #334155; }
+        .tabs { 
+            display: flex; 
+            background: #1e293b; 
+        }
+        .tab-btn { 
+            flex: 1; 
+            padding: 18px; 
+            border: none; 
+            background: none; 
+            color: #94a3b8; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            transition: 0.3s; 
+        }
+        .tab-btn.active { 
+            color: white; 
+            border-bottom: 4px solid var(--primary); 
+            background: #334155; 
+        }
 
-        .content-section { padding: 30px; display: none; }
-        .content-section.active { display: block; }
+        .content-section { 
+            padding: 30px; 
+            display: none; 
+        }
+        .content-section.active { 
+            display: block; 
+        }
 
         /* Speaking Section Styles */
-        .question-box { background: #eef2ff; border-left: 6px solid var(--primary); padding: 20px; margin-bottom: 20px; }
-        .mic-area { text-align: center; margin-bottom: 20px; }
-        #mic-btn { width: 250px; padding: 15px; font-size: 1.1rem; border-radius: 50px; border: none; cursor: pointer; background: var(--primary); color: white; transition: 0.3s; }
-        #mic-btn.listening { background: var(--danger); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .question-box { 
+            background: #eef2ff; 
+            border-left: 6px solid var(--primary); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px;
+        }
+        .mic-area { 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        #mic-btn { 
+            width: 250px; 
+            padding: 15px; 
+            font-size: 1.1rem; 
+            border-radius: 50px; 
+            border: none; 
+            cursor: pointer; 
+            background: var(--primary); 
+            color: white; 
+            transition: 0.3s; 
+        }
+        #mic-btn.listening { 
+            background: var(--danger); 
+            animation: pulse 1.5s infinite; 
+        }
+        @keyframes pulse { 
+            0% { opacity: 1; } 
+            50% { opacity: 0.7; } 
+            100% { opacity: 1; } 
+        }
 
-        .feedback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .panel { border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; height: 250px; overflow-y: auto; background: #fff; }
+        .feedback-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+        }
+        .panel { 
+            border: 1px solid #e2e8f0; 
+            padding: 15px; 
+            border-radius: 12px; 
+            height: 250px; 
+            overflow-y: auto; 
+            background: #fff; 
+        }
 
-        /* Grammar Quiz Styles */
-        .quiz-item { background: #f1f5f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .options-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .opt-btn { background: white; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-        .opt-btn:hover:not(:disabled) { border-color: var(--primary); background: #f5f3ff; }
-        .correct { background: #dcfce7 !important; border-color: #22c55e !important; font-weight: bold; }
-        .wrong { background: #fee2e2 !important; border-color: #ef4444 !important; }
+        /* Grammar Quiz Styles - ENHANCED */
+        .quiz-item { 
+            background: #f1f5f9; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            border-left: 5px solid #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        .quiz-item.answered {
+            border-left-color: var(--primary);
+        }
+        .options-container { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            margin-top: 15px; 
+        }
+        .opt-btn { 
+            background: white; 
+            border: 1px solid #cbd5e1; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            text-align: left;
+        }
+        .opt-btn:hover:not(:disabled) { 
+            border-color: var(--primary); 
+            background: #f5f3ff; 
+        }
+        .correct { 
+            background: #dcfce7 !important; 
+            border-color: #22c55e !important; 
+            font-weight: bold; 
+        }
+        .wrong { 
+            background: #fee2e2 !important; 
+            border-color: #ef4444 !important; 
+            text-decoration: line-through;
+        }
         
-        .score-sticky { position: sticky; top: 0; background: white; padding: 10px; border-bottom: 2px solid #eee; z-index: 10; font-weight: bold; text-align: center; }
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            display: none;
+        }
+        .explanation-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-sticky { 
+            position: sticky; 
+            top: 0; 
+            background: white; 
+            padding: 15px; 
+            border-bottom: 2px solid #eee; 
+            z-index: 10; 
+            font-weight: bold; 
+            text-align: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Features Suggestions */
+        .features-list {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .features-list ul {
+            padding-left: 20px;
+        }
+        .features-list li {
+            margin-bottom: 10px;
+        }
+        
+        /* Question Counter */
+        .question-counter {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .feedback-grid, .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -43,7 +230,8 @@
 <div class="app-container">
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('speaking')">🎤 Speaking Test</button>
-        <button class="tab-btn" onclick="showTab('grammar')">📝 Grammar Test (30 Qs)</button>
+        <button class="tab-btn" onclick="showTab('grammar')">📝 Enhanced Grammar Test (50 Qs)</button>
+        <button class="tab-btn" onclick="showTab('features')">✨ App Features</button>
     </div>
 
     <div id="speaking" class="content-section active">
@@ -74,10 +262,51 @@
     </div>
 
     <div id="grammar" class="content-section">
-        <div class="score-sticky">Your Current Score: <span id="current-score">0</span> / 30</div>
-        <h2>Grammar Proficiency Test</h2>
-        <div id="grammar-quiz-list">
+        <div class="score-sticky">
+            Your Current Score: <span id="current-score">0</span> / 50
+            <div class="progress-bar">
+                <div class="progress-fill" id="score-progress"></div>
             </div>
+            <div id="score-message" style="font-weight: normal; color: #64748b; margin-top: 5px;"></div>
+        </div>
+        <h2>Grammar Proficiency Test <span class="question-counter">50 Questions</span></h2>
+        <div id="grammar-quiz-list">
+            <!-- Grammar questions will be loaded here -->
+        </div>
+    </div>
+    
+    <div id="features" class="content-section">
+        <h2>Features for Mr. Eto's English Learning App</h2>
+        <p>Here are suggestions to enhance the learning experience:</p>
+        
+        <div class="features-list">
+            <h3>Grammar Test Enhancements:</h3>
+            <ul>
+                <li><strong>Explanations after each answer</strong> - Why it's right/wrong with grammar rules</li>
+                <li><strong>Difficulty levels</strong> - Beginner, Intermediate, Advanced</li>
+                <li><strong>Topic-based tests</strong> - Tenses, Prepositions, Articles, etc.</li>
+                <li><strong>Timed tests</strong> - For exam preparation</li>
+                <li><strong>Review incorrect answers</strong> - Option to retry missed questions</li>
+                <li><strong>Progress tracking</strong> - Charts showing improvement over time</li>
+            </ul>
+            
+            <h3>Speaking Practice Features:</h3>
+            <ul>
+                <li><strong>Pronunciation scoring</strong> - AI analysis of accent and clarity</li>
+                <li><strong>Conversation simulations</strong> - Real-life dialogues</li>
+                <li><strong>Vocabulary builder</strong> - Word of the day with usage examples</li>
+                <li><strong>Accent training</strong> - American vs British English options</li>
+            </ul>
+            
+            <h3>General App Features:</h3>
+            <ul>
+                <li><strong>Daily challenges</strong> - Short, daily exercises</li>
+                <li><strong>Community features</strong> - Practice with other learners</li>
+                <li><strong>Certificates</strong> - For completing levels or scoring high</li>
+                <li><strong>Offline mode</strong> - Download lessons for offline use</li>
+                <li><strong>Personalized learning path</strong> - Adaptive to user's weak areas</li>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -97,7 +326,11 @@
         {q: "Where were you born?", h: "Practice using 'I was born in...'"},
         {q: "Why do you want to be a developer?", h: "Talk about your interest in building things and solving logic problems."},
         {q: "How do you handle a difficult task?", h: "Use: 'I break it down', 'I research', 'I stay patient'."},
-        // ... (The rest of the 50 questions from previous response are included in logic)
+        {q: "What is your favorite programming language?", h: "Explain why you like it with examples."},
+        {q: "Describe your ideal work environment.", h: "Use adjectives like 'collaborative', 'dynamic', 'supportive'."},
+        {q: "Where do you see yourself in 5 years?", h: "Talk about career growth and skills you want to develop."},
+        {q: "What is your biggest achievement?", h: "Use past tense: 'I accomplished...', 'I succeeded in...'"},
+        {q: "How do you stay updated with technology?", h: "Mention blogs, courses, conferences, or projects."}
     ];
 
     function loadNextSpeakQ() {
@@ -130,6 +363,11 @@
     }
 
     function toggleMic() {
+        if (!recognition) {
+            alert("Speech recognition is not supported in your browser. Try Chrome or Edge.");
+            return;
+        }
+        
         if (isListening) {
             recognition.stop();
         } else {
@@ -143,74 +381,421 @@
 
     function analyzeSpeech(text) {
         let feedback = "<strong>AI Feedback:</strong>";
-        if (text.includes("i am born")) feedback += "<p style='color:red'>❌ You said 'I am born'. Correction: <b>'I was born'</b>.</p>";
-        if (text.includes("good in")) feedback += "<p style='color:red'>❌ You said 'Good in'. Correction: <b>'Good at'</b>.</p>";
-        if (text.length > 40) feedback += "<p style='color:green'>✅ Good detail! You are speaking in full sentences.</p>";
-        else feedback += "<p>Try to give a longer answer to practice more words.</p>";
+        
+        // Grammar checks with explanations
+        if (text.includes("i am born")) {
+            feedback += `<p style='color:var(--danger)'>❌ <strong>Error:</strong> You said "I am born"</p>`;
+            feedback += `<p style='color:var(--primary)'>📚 <strong>Correction:</strong> Use "I was born" (past tense for events at a specific time in the past)</p>`;
+        }
+        if (text.includes("good in")) {
+            feedback += `<p style='color:var(--danger)'>❌ <strong>Error:</strong> You said "Good in"</p>`;
+            feedback += `<p style='color:var(--primary)'>📚 <strong>Correction:</strong> Use "Good at" for skills (e.g., "I'm good at coding")</p>`;
+        }
+        if (text.includes("i have")) {
+            feedback += `<p style='color:var(--success)'>✅ <strong>Good:</strong> You used present perfect correctly</p>`;
+        }
+        
+        // Length feedback
+        if (text.length > 40) {
+            feedback += `<p style='color:var(--success)'>✅ <strong>Good detail!</strong> You're speaking in full sentences.</p>`;
+        } else {
+            feedback += `<p style='color:var(--warning)'>💡 <strong>Tip:</strong> Try to give a longer answer to practice more words.</p>`;
+        }
+        
+        // Vocabulary encouragement
+        if (text.split(' ').length > 8) {
+            feedback += `<p style='color:var(--success)'>✅ <strong>Great!</strong> You used ${text.split(' ').length} words in your answer.</p>`;
+        }
+        
         document.getElementById('ai-feedback').innerHTML = feedback;
     }
 
-    // --- GRAMMAR DATA (The 30 Questions you provided) ---
+    // --- ENHANCED GRAMMAR DATA (50 Questions with explanations) ---
     const grammarData = [
-        { q: "Each team member ___ responsible for submitting report.", options: ["are", "is", "was", "be"], a: 1 },
-        { q: "The minutes of the meeting ___ already been shared.", options: ["has", "have", "is", "was"], a: 1 },
-        { q: "The client asked to ___ (finish small details).", options: ["tie up loose ends", "tie the knot", "loosen up", "tighten the belt"], a: 0 },
-        { q: "I ___ the files yesterday.", options: ["prepare", "prepared", "have prepared", "am preparing"], a: 1 },
-        { q: "She ___ here for 5 years before promotion.", options: ["works", "worked", "has worked", "had worked"], a: 3 },
-        { q: "All employees had ___ ID badges.", options: ["their", "his", "her", "its"], a: 0 },
-        { q: "He usually ___ emails in the morning.", options: ["is checking", "checks", "check", "has checked"], a: 1 },
-        { q: "Materials ___ already been uploaded.", options: ["has", "had", "will have", "are"], a: 2 },
-        { q: "Invoices reviewed, but ___ of them had discrepancies.", options: ["several", "much", "many", "little"], a: 2 },
-        { q: "Finished task in the ___ of time.", options: ["nick", "notch", "neck", "niche"], a: 0 },
-        { q: "Team leader went ___ great lengths.", options: ["at", "to", "in", "for"], a: 1 },
-        { q: "___ the assistants complete their reports on time?", options: ["Do", "Did", "Has", "Are"], a: 1 },
-        { q: "The assistant was advised to ___ the presentation.", options: ["give", "gave", "given", "giving"], a: 0 },
-        { q: "Requested that the assistant ___ the agenda in advance.", options: ["send", "sends", "sent", "sending"], a: 0 },
-        { q: "Neither the client nor the admin assistants ___ satisfied.", options: ["was", "were", "is", "are"], a: 3 },
-        { q: "The manager, along with her assistants, ___ attending.", options: ["is", "are", "were", "be"], a: 0 },
-        { q: "If anyone ___ questions, let me know.", options: ["has", "have", "is having", "had"], a: 0 },
-        { q: "Each of the employees ___ a computer.", options: ["have", "has", "had", "is having"], a: 1 },
-        { q: "She received ___ email from the client.", options: ["a", "the", "no article", "an"], a: 3 },
-        { q: "The report is due ___ Friday.", options: ["on", "at", "in", "by"], a: 3 },
-        { q: "She is responsible ___ managing the schedule.", options: ["in", "on", "for", "with"], a: 2 },
-        { q: "The team is meeting ___ 2:00 PM.", options: ["at", "in", "on", "by"], a: 0 },
-        { q: "We need to follow up ___ the status.", options: ["at", "with", "for", "on"], a: 3 },
-        { q: "Report needs to be submitted ___ the end of the week.", options: ["at", "by", "in", "on"], a: 1 },
-        { q: "The printer ___ out of paper.", options: ["run", "is running", "ran", "has ran"], a: 1 },
-        { q: "Efforts really ___ (resulted in success).", options: ["paid off", "paid up", "paid back", "paid out"], a: 0 },
-        { q: "The client's feedback ___ valuable.", options: ["is", "are", "were", "was"], a: 0 },
-        { q: "If he had checked, they ___ responded.", options: ["will have", "would have", "had", "have"], a: 1 },
-        { q: "Review ___ work (possessive).", options: ["there", "their", "they're"], a: 1 },
-        { q: "Which idiom describes a new agreement starting?", options: ["A win-win", "Hit the ground running", "Burning oil", "Think outside box"], a: 1 }
+        { 
+            q: "Each team member ___ responsible for submitting report.", 
+            options: ["are", "is", "was", "be"], 
+            a: 1,
+            explanation: "❌ 'Each' is singular, so we use 'is' (not 'are'). ✅ CORRECT: Each team member IS responsible."
+        },
+        { 
+            q: "The minutes of the meeting ___ already been shared.", 
+            options: ["has", "have", "is", "was"], 
+            a: 1,
+            explanation: "❌ 'Minutes' is plural (even though it refers to one meeting), so use 'have'. ✅ CORRECT: The minutes HAVE been shared."
+        },
+        { 
+            q: "The client asked to ___ (finish small details).", 
+            options: ["tie up loose ends", "tie the knot", "loosen up", "tighten the belt"], 
+            a: 0,
+            explanation: "✅ CORRECT: 'Tie up loose ends' means to finish small remaining details. ❌ 'Tie the knot' means to get married."
+        },
+        { 
+            q: "I ___ the files yesterday.", 
+            options: ["prepare", "prepared", "have prepared", "am preparing"], 
+            a: 1,
+            explanation: "❌ 'Yesterday' indicates a finished time, so simple past is needed. ✅ CORRECT: I PREPARED the files yesterday."
+        },
+        { 
+            q: "She ___ here for 5 years before promotion.", 
+            options: ["works", "worked", "has worked", "had worked"], 
+            a: 3,
+            explanation: "❌ 'Before promotion' shows an action completed before another past action. ✅ CORRECT: She HAD WORKED here for 5 years before promotion (past perfect)."
+        },
+        { 
+            q: "All employees had ___ ID badges.", 
+            options: ["their", "his", "her", "its"], 
+            a: 0,
+            explanation: "❌ 'All employees' is plural, so we need plural possessive 'their'. ✅ CORRECT: All employees had THEIR ID badges."
+        },
+        { 
+            q: "He usually ___ emails in the morning.", 
+            options: ["is checking", "checks", "check", "has checked"], 
+            a: 1,
+            explanation: "❌ 'Usually' indicates a habit/routine, so simple present is needed. ✅ CORRECT: He usually CHECKS emails in the morning."
+        },
+        { 
+            q: "Materials ___ already been uploaded.", 
+            options: ["has", "had", "will have", "are"], 
+            a: 2,
+            explanation: "✅ CORRECT: 'Materials' is plural, so we use 'have' (not 'has'). Also 'already been' needs present perfect. ❌ 'Has' is for singular subjects."
+        },
+        { 
+            q: "Invoices reviewed, but ___ of them had discrepancies.", 
+            options: ["several", "much", "many", "little"], 
+            a: 2,
+            explanation: "❌ 'Them' refers to countable invoices, so we need 'many' (not 'much'). ✅ CORRECT: ...but MANY of them had discrepancies."
+        },
+        { 
+            q: "Finished task in the ___ of time.", 
+            options: ["nick", "notch", "neck", "niche"], 
+            a: 0,
+            explanation: "✅ CORRECT: 'In the nick of time' is an idiom meaning just before it's too late."
+        },
+        { 
+            q: "Team leader went ___ great lengths.", 
+            options: ["at", "to", "in", "for"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'Go to great lengths' is an idiom meaning to try very hard. ❌ Other prepositions don't fit this idiom."
+        },
+        { 
+            q: "___ the assistants complete their reports on time?", 
+            options: ["Do", "Did", "Has", "Are"], 
+            a: 1,
+            explanation: "❌ Question about a completed action in the past. ✅ CORRECT: DID the assistants complete their reports on time?"
+        },
+        { 
+            q: "The assistant was advised to ___ the presentation.", 
+            options: ["give", "gave", "given", "giving"], 
+            a: 0,
+            explanation: "❌ After 'to' we need base form of verb (infinitive). ✅ CORRECT: ...was advised to GIVE the presentation."
+        },
+        { 
+            q: "Requested that the assistant ___ the agenda in advance.", 
+            options: ["send", "sends", "sent", "sending"], 
+            a: 0,
+            explanation: "✅ CORRECT: After 'requested that' we use base form (subjunctive mood). ❌ 'Sends' would be incorrect here."
+        },
+        { 
+            q: "Neither the client nor the admin assistants ___ satisfied.", 
+            options: ["was", "were", "is", "are"], 
+            a: 3,
+            explanation: "❌ With 'neither/nor', verb agrees with the closer subject ('assistants' is plural). ✅ CORRECT: ...assistants ARE satisfied."
+        },
+        { 
+            q: "The manager, along with her assistants, ___ attending.", 
+            options: ["is", "are", "were", "be"], 
+            a: 0,
+            explanation: "✅ CORRECT: 'Along with' doesn't make subject plural. Main subject 'manager' is singular. ❌ 'Are' would be incorrect."
+        },
+        { 
+            q: "If anyone ___ questions, let me know.", 
+            options: ["has", "have", "is having", "had"], 
+            a: 0,
+            explanation: "❌ 'Anyone' is singular indefinite pronoun. ✅ CORRECT: If anyone HAS questions, let me know."
+        },
+        { 
+            q: "Each of the employees ___ a computer.", 
+            options: ["have", "has", "had", "is having"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'Each' is always singular. ❌ 'Employees' is plural but 'each of' makes the subject singular."
+        },
+        { 
+            q: "She received ___ email from the client.", 
+            options: ["a", "the", "no article", "an"], 
+            a: 3,
+            explanation: "❌ 'Email' starts with vowel sound /iː/, so we need 'an'. ✅ CORRECT: She received AN email from the client."
+        },
+        { 
+            q: "The report is due ___ Friday.", 
+            options: ["on", "at", "in", "by"], 
+            a: 3,
+            explanation: "✅ CORRECT: 'Due by' means no later than Friday. ❌ 'On Friday' would mean specifically on that day."
+        },
+        { 
+            q: "She is responsible ___ managing the schedule.", 
+            options: ["in", "on", "for", "with"], 
+            a: 2,
+            explanation: "✅ CORRECT: 'Responsible for' is the correct preposition. ❌ Other prepositions don't collocate with 'responsible'."
+        },
+        { 
+            q: "The team is meeting ___ 2:00 PM.", 
+            options: ["at", "in", "on", "by"], 
+            a: 0,
+            explanation: "✅ CORRECT: Use 'at' for specific times. ❌ 'On' is for days, 'in' is for months/years/periods."
+        },
+        { 
+            q: "We need to follow up ___ the status.", 
+            options: ["at", "with", "for", "on"], 
+            a: 3,
+            explanation: "✅ CORRECT: 'Follow up on' is the correct phrasal verb. ❌ Other prepositions change the meaning."
+        },
+        { 
+            q: "Report needs to be submitted ___ the end of the week.", 
+            options: ["at", "by", "in", "on"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'By the end' means no later than that time. ❌ 'At the end' would mean exactly at that moment."
+        },
+        { 
+            q: "The printer ___ out of paper.", 
+            options: ["run", "is running", "ran", "has ran"], 
+            a: 1,
+            explanation: "❌ Current temporary situation needs present continuous. ✅ CORRECT: The printer IS RUNNING out of paper."
+        },
+        { 
+            q: "Efforts really ___ (resulted in success).", 
+            options: ["paid off", "paid up", "paid back", "paid out"], 
+            a: 0,
+            explanation: "✅ CORRECT: 'Paid off' means resulted in success. ❌ 'Paid back' means returned money, 'paid out' means distributed money."
+        },
+        { 
+            q: "The client's feedback ___ valuable.", 
+            options: ["is", "are", "were", "was"], 
+            a: 0,
+            explanation: "❌ 'Feedback' is uncountable singular noun. ✅ CORRECT: The client's feedback IS valuable."
+        },
+        { 
+            q: "If he had checked, they ___ responded.", 
+            options: ["will have", "would have", "had", "have"], 
+            a: 1,
+            explanation: "✅ CORRECT: Third conditional (unreal past) uses 'would have + past participle'. ❌ 'Will have' is for future perfect."
+        },
+        { 
+            q: "Review ___ work (possessive).", 
+            options: ["there", "their", "they're"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'Their' shows possession. ❌ 'There' indicates place, 'they're' means 'they are'."
+        },
+        { 
+            q: "Which idiom describes a new agreement starting?", 
+            options: ["A win-win", "Hit the ground running", "Burning oil", "Think outside box"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'Hit the ground running' means start something with energy immediately. ❌ Other idioms have different meanings."
+        },
+        // ADDED 20 MORE QUESTIONS
+        { 
+            q: "I wish I ___ more time to finish the project.", 
+            options: ["have", "had", "would have", "will have"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'Wish' about present uses past tense. ❌ 'Have' is present but 'wish' needs subjunctive."
+        },
+        { 
+            q: "By next year, she ___ for the company for a decade.", 
+            options: ["will work", "will have worked", "has worked", "works"], 
+            a: 1,
+            explanation: "✅ CORRECT: Future perfect ('will have worked') for action completed before future time. ❌ 'Will work' is simple future."
+        },
+        { 
+            q: "Neither of the solutions ___ feasible.", 
+            options: ["are", "is", "were", "be"], 
+            a: 1,
+            explanation: "❌ 'Neither' is always singular. ✅ CORRECT: Neither of the solutions IS feasible."
+        },
+        { 
+            q: "The data suggests that the strategy ___ effective.", 
+            options: ["is", "are", "were", "have been"], 
+            a: 0,
+            explanation: "❌ 'Data' can be singular or plural but often treated as singular in business. ✅ CORRECT: The data suggests that the strategy IS effective."
+        },
+        { 
+            q: "He's not used to ___ early.", 
+            options: ["wake up", "waking up", "woke up", "wakes up"], 
+            a: 1,
+            explanation: "✅ CORRECT: After 'used to' (meaning accustomed to) use gerund (-ing). ❌ Base form is incorrect here."
+        },
+        { 
+            q: "If I ___ you, I would accept the offer.", 
+            options: ["am", "was", "were", "would be"], 
+            a: 2,
+            explanation: "✅ CORRECT: Unreal condition (second conditional) uses 'were' for all subjects. ❌ 'Was' is informal but 'were' is grammatically correct."
+        },
+        { 
+            q: "The committee ___ divided in their opinions.", 
+            options: ["is", "are", "has", "have"], 
+            a: 1,
+            explanation: "❌ Collective nouns like 'committee' can be plural when focusing on members. ✅ CORRECT: The committee ARE divided (members have different opinions)."
+        },
+        { 
+            q: "She made him ___ the report again.", 
+            options: ["to write", "write", "writing", "wrote"], 
+            a: 1,
+            explanation: "✅ CORRECT: After 'make' (causative) use base form without 'to'. ❌ 'To write' would be incorrect."
+        },
+        { 
+            q: "I look forward to ___ from you.", 
+            options: ["hear", "hearing", "heard", "have heard"], 
+            a: 1,
+            explanation: "✅ CORRECT: After 'look forward to' use gerund (-ing). ❌ Base form 'hear' is incorrect."
+        },
+        { 
+            q: "It's high time we ___ a decision.", 
+            options: ["make", "made", "have made", "will make"], 
+            a: 1,
+            explanation: "✅ CORRECT: 'It's high time' is followed by past simple (subjunctive). ❌ Present tense is incorrect."
+        },
+        { 
+            q: "The number of applicants ___ increasing.", 
+            options: ["is", "are", "were", "have been"], 
+            a: 0,
+            explanation: "❌ 'The number' is singular. ✅ CORRECT: The number of applicants IS increasing. ('A number' would be plural)"
+        },
+        { 
+            q: "I'd rather you ___ that tomorrow.", 
+            options: ["do", "did", "will do", "to do"], 
+            a: 1,
+            explanation: "✅ CORRECT: After 'I'd rather' (past preference) use past simple. ❌ Present tense is incorrect."
+        },
+        { 
+            q: "Not only the CEO but also the directors ___ present.", 
+            options: ["was", "were", "is", "has been"], 
+            a: 1,
+            explanation: "❌ With 'not only...but also', verb agrees with closer subject ('directors' is plural). ✅ CORRECT: ...directors WERE present."
+        },
+        { 
+            q: "Had I known, I ___ differently.", 
+            options: ["will act", "would act", "would have acted", "acted"], 
+            a: 2,
+            explanation: "✅ CORRECT: Inverted conditional (had I known) needs 'would have + past participle'. ❌ 'Would act' is for present unreal."
+        },
+        { 
+            q: "The project, as well as its components, ___ complex.", 
+            options: ["is", "are", "were", "have been"], 
+            a: 0,
+            explanation: "❌ 'As well as' doesn't make subject plural. Main subject 'project' is singular. ✅ CORRECT: The project IS complex."
+        },
+        { 
+            q: "She insisted that he ___ the meeting.", 
+            options: ["attend", "attends", "attended", "will attend"], 
+            a: 0,
+            explanation: "✅ CORRECT: After 'insisted that' (subjunctive) use base form. ❌ 'Attends' is indicative mood."
+        },
+        { 
+            q: "Hardly ___ arrived when the meeting started.", 
+            options: ["had I", "I had", "did I", "I did"], 
+            a: 0,
+            explanation: "✅ CORRECT: Inversion after 'hardly' at beginning: 'Hardly had I arrived'. ❌ Normal word order is incorrect here."
+        },
+        { 
+            q: "It was ___ interesting presentation.", 
+            options: ["a", "an", "the", "no article"], 
+            a: 1,
+            explanation: "❌ 'Interesting' starts with vowel sound /ɪ/, so we need 'an'. ✅ CORRECT: It was AN interesting presentation."
+        },
+        { 
+            q: "By the time he arrived, everyone ___ home.", 
+            options: ["went", "has gone", "had gone", "goes"], 
+            a: 2,
+            explanation: "✅ CORRECT: Past perfect ('had gone') for action completed before another past action. ❌ Simple past doesn't show sequence."
+        },
+        { 
+            q: "I object to ___ treated this way.", 
+            options: ["be", "being", "been", "have been"], 
+            a: 1,
+            explanation: "✅ CORRECT: After 'object to' use gerund (-ing). ❌ Base form 'be' is incorrect."
+        }
     ];
 
     let currentScore = 0;
+    let answeredCount = 0;
 
     function loadGrammarTest() {
         const list = document.getElementById('grammar-quiz-list');
         grammarData.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'quiz-item';
-            div.innerHTML = `<p><b>${idx + 1}. ${item.q}</b></p>
+            div.id = `quiz-item-${idx}`;
+            div.innerHTML = `
+                <p><b>${idx + 1}. ${item.q}</b></p>
                 <div class="options-container" id="g${idx}">
-                    ${item.options.map((opt, oIdx) => `<button class="opt-btn" onclick="checkGrammar(${idx}, ${oIdx})">${opt}</button>`).join('')}
-                </div>`;
+                    ${item.options.map((opt, oIdx) => 
+                        `<button class="opt-btn" onclick="checkGrammar(${idx}, ${oIdx})">${opt}</button>`
+                    ).join('')}
+                </div>
+                <div class="explanation-box" id="exp${idx}"></div>
+            `;
             list.appendChild(div);
         });
+        updateScoreDisplay();
     }
 
     function checkGrammar(qIdx, oIdx) {
         const parent = document.getElementById(`g${qIdx}`);
         const btns = parent.querySelectorAll('.opt-btn');
+        const explanationBox = document.getElementById(`exp${qIdx}`);
+        const quizItem = document.getElementById(`quiz-item-${qIdx}`);
+        
+        // Mark as answered
+        quizItem.classList.add('answered');
+        
+        // Check answer
         if (oIdx === grammarData[qIdx].a) {
             btns[oIdx].classList.add('correct');
             currentScore++;
-            document.getElementById('current-score').innerText = currentScore;
+            answeredCount++;
+            
+            // Show success explanation
+            explanationBox.innerHTML = `<span style="color:var(--success)">✅ CORRECT!</span><br>${grammarData[qIdx].explanation}`;
         } else {
             btns[oIdx].classList.add('wrong');
             btns[grammarData[qIdx].a].classList.add('correct');
+            answeredCount++;
+            
+            // Show error explanation
+            explanationBox.innerHTML = `<span style="color:var(--danger)">❌ INCORRECT</span><br>${grammarData[qIdx].explanation}`;
         }
+        
+        // Disable all buttons
         btns.forEach(b => b.disabled = true);
+        
+        // Show explanation
+        explanationBox.classList.add('show');
+        
+        // Update score display
+        updateScoreDisplay();
+    }
+
+    function updateScoreDisplay() {
+        document.getElementById('current-score').innerText = currentScore;
+        
+        // Update progress bar
+        const progress = (answeredCount / grammarData.length) * 100;
+        document.getElementById('score-progress').style.width = `${progress}%`;
+        
+        // Update message
+        const messageEl = document.getElementById('score-message');
+        if (answeredCount === 0) {
+            messageEl.innerHTML = "Start answering questions!";
+        } else if (answeredCount === grammarData.length) {
+            const percentage = Math.round((currentScore / grammarData.length) * 100);
+            let message = `Test completed! Score: ${percentage}% - `;
+            if (percentage >= 90) message += "Excellent! 🎉";
+            else if (percentage >= 70) message += "Good job! 👍";
+            else if (percentage >= 50) message += "Keep practicing! 💪";
+            else message += "Review the explanations and try again! 📚";
+            messageEl.innerHTML = message;
+        } else {
+            messageEl.innerHTML = `${answeredCount} of ${grammarData.length} answered`;
+        }
     }
 
     // Initialize
