@@ -112,50 +112,64 @@
             document.getElementById('status').innerText = "Resume ready!";
         });
 
-        async function optimizeResume() {
-            const jd = document.getElementById('job-desc').value;
-            if (!jd || !rawResumeText) return alert("Upload resume and paste JD first!");
+       async function optimizeResume() {
+    const jd = document.getElementById('job-desc').value;
+    if (!jd || !rawResumeText) return alert("Upload resume and paste JD first!");
 
-            const btn = document.getElementById('opt-btn');
-            btn.disabled = true;
-            document.getElementById('status').innerText = "AI is rewriting your resume...";
+    const btn = document.getElementById('opt-btn');
+    btn.disabled = true;
+    document.getElementById('status').innerText = "AI is rewriting...";
 
-            try {
-                const res = await fetch(FUNC_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${ANON_KEY}`, 'apikey': ANON_KEY },
-                    body: JSON.stringify({ job_description: jd, current_resume: rawResumeText })
-                });
+    try {
+        const res = await fetch(FUNC_URL, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${ANON_KEY}`, 
+                'apikey': ANON_KEY 
+            },
+            body: JSON.stringify({ job_description: jd, current_resume: rawResumeText })
+        });
 
-                const data = await res.json();
-
-                // UPDATE UI
-                document.getElementById('res-name').innerText = data.name;
-                document.getElementById('res-contact').innerText = data.contact;
-                document.getElementById('res-objective').innerText = data.objective;
-                document.getElementById('res-skills').innerText = data.skills;
-                document.getElementById('res-education').innerText = data.education;
-
-                const expContainer = document.getElementById('experience-container');
-                expContainer.innerHTML = "";
-                data.experience.forEach(job => {
-                    const jobHtml = `
-                        <div style="margin-bottom: 15px;">
-                            <span class="job-title" contenteditable="true">${job.role}</span>
-                            <span class="job-meta" contenteditable="true">${job.company}</span>
-                            <ul>${job.bullets.map(b => `<li contenteditable="true">${b}</li>`).join('')}</ul>
-                        </div>`;
-                    expContainer.insertAdjacentHTML('beforeend', jobHtml);
-                });
-
-                document.getElementById('status').innerText = "Done!";
-            } catch (err) {
-                document.getElementById('status').innerText = "Error!";
-                console.error(err);
-            } finally {
-                btn.disabled = false;
-            }
+        // NEW: Check if the server actually worked
+        if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.error || "Server Error (500)");
         }
+
+        const data = await res.json();
+
+        // Update UI...
+        document.getElementById('res-name').innerText = data.name;
+        document.getElementById('res-contact').innerText = data.contact;
+        document.getElementById('res-objective').innerText = data.objective;
+        document.getElementById('res-skills').innerText = data.skills;
+        document.getElementById('res-education').innerText = data.education;
+
+        const expContainer = document.getElementById('experience-container');
+        expContainer.innerHTML = "";
+        
+        // SAFE CHECK for the forEach
+        if (data.experience && Array.isArray(data.experience)) {
+            data.experience.forEach(job => {
+                const jobHtml = `
+                    <div style="margin-bottom: 15px;">
+                        <span class="job-title" contenteditable="true">${job.role}</span>
+                        <span class="job-meta" contenteditable="true">${job.company}</span>
+                        <ul>${job.bullets.map(b => `<li contenteditable="true">${b}</li>`).join('')}</ul>
+                    </div>`;
+                expContainer.insertAdjacentHTML('beforeend', jobHtml);
+            });
+        }
+
+        document.getElementById('status').innerText = "Done!";
+    } catch (err) {
+        document.getElementById('status').innerText = "Error: " + err.message;
+        console.error("Full Error Info:", err);
+    } finally {
+        btn.disabled = false;
+    }
+}
     </script>
 </body>
 </html>
