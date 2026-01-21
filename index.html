@@ -70,57 +70,66 @@
         const SUPABASE_FUNC_URL = 'https://iriwdybkpvahsputenzc.supabase.co/functions/v1/openai-proxy';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyaXdkeWJrcHZhaHNwdXRlbnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5MjE1MzIsImV4cCI6MjA4NDQ5NzUzMn0.ohEgOTIjzSu4oB_x8XNvGSWWcE22yyW04E7Duk-7LJ8';
 
-        async function optimizeResume() {
+async function optimizeResume() {
             const jd = document.getElementById('job-desc').value;
+            const optBtn = document.getElementById('opt-btn');
+            const statusMsg = document.getElementById('status-msg');
+            
             const summaryBox = document.getElementById('resume-summary');
-            const experienceBox = document.getElementById('resume-experience');
-            const controls = document.getElementById('controls');
+            const bulletList = document.getElementById('bullet-list');
 
-            if (!jd) return alert("Please paste a Job Description!");
+            if (!jd) return alert("Please paste a job description first!");
 
-            // Visual feedback
-            controls.classList.add('loading');
-            summaryBox.style.color = "#999";
-            summaryBox.innerText = "AI is tailoring your summary to the job...";
+            // UI Loading State
+            optBtn.disabled = true;
+            statusMsg.innerText = "Connecting to AI...";
 
             try {
-                const response = await fetch(SUPABASE_FUNC_URL, {
+                const response = await fetch(SUPABASE_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        'Authorization': `Bearer ${ANON_KEY}`
                     },
                     body: JSON.stringify({
                         job_description: jd,
-                        current_resume: experienceBox.innerText + " " + summaryBox.innerText
+                        current_resume: summaryBox.innerText + " " + bulletList.innerText
                     })
                 });
 
-                if (!response.ok) throw new Error("Check your Supabase Key or OpenAI Credits.");
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Failed to reach AI");
+                }
 
                 const data = await response.json();
 
-                // Update text content while keeping the CSS classes/layout
-                summaryBox.style.color = "#333";
-                summaryBox.innerText = data.newSummary;
+                // UPDATE THE RESUME (Matching your new Edge Function keys)
+                summaryBox.innerText = data.summary;
                 
-                // Assuming AI returns <li> items, we keep our bold header and just swap the <ul>
-                const experienceHeader = "<strong>Senior Web Developer | Tech Solutions (2021 - Present)</strong>";
-                experienceBox.innerHTML = `${experienceHeader}<ul>${data.newExperience}</ul>`;
+                // Clear and rebuild bullet points
+                bulletList.innerHTML = "";
+                data.bullets.forEach(bullet => {
+                    const li = document.createElement('li');
+                    li.innerText = bullet;
+                    bulletList.appendChild(li);
+                });
 
-            } catch (error) {
-                console.error(error);
-                alert("Error: " + error.message);
-                summaryBox.innerText = "Failed to optimize. Please check your setup.";
+                statusMsg.innerText = "Success! Resume tailored.";
+                
+            } catch (err) {
+                console.error(err);
+                alert("Error: " + err.message);
+                statusMsg.innerText = "Error occurred.";
             } finally {
-                controls.classList.remove('loading');
+                optBtn.disabled = false;
             }
         }
 
-        function downloadResume() {
-            const element = document.getElementById('resume-container');
+        function downloadPDF() {
+            const element = document.getElementById('resume-to-print');
             const opt = {
-                margin:       0,
+                margin:       10,
                 filename:     'Tailored_Resume.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
