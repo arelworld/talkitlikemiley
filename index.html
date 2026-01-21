@@ -161,20 +161,18 @@
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
 
-                // Update UI with AI-extracted personal info and tailored content
-                document.getElementById('res-name').innerText = data.name || "YOUR NAME";
-                document.getElementById('res-contact').innerText = data.contact || "Email | Phone | Location";
-                document.getElementById('res-summary').innerText = data.summary;
+                // Make sure these IDs match your HTML elements!
+document.getElementById('res-name').innerText = data.name;
+document.getElementById('res-contact').innerText = data.contact;
+document.getElementById('res-summary').innerText = data.summary;
 
-                const list = document.getElementById('bullet-list');
-                list.innerHTML = ""; 
-                data.bullets.forEach(txt => {
-                    const li = document.createElement('li');
-                    li.className = "editable";
-                    li.contentEditable = "true";
-                    li.innerText = txt;
-                    list.appendChild(li);
-                });
+              const list = document.getElementById('bullet-list');
+list.innerHTML = "";
+data.bullets.forEach(txt => { // This will now always work!
+    const li = document.createElement('li');
+    li.innerText = txt;
+    list.appendChild(li);
+});
 
                 status.innerText = "Optimization Complete!";
             } catch (err) {
