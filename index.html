@@ -3,110 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free AI Resume Tailor</title>
+    <title>AI Resume Tailor - Upload & Transform</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
+        :root { --primary: #2563eb; --bg: #f1f5f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
-        /* Left Sidebar - Hidden when printing */
-        .sidebar { width: 380px; background: white; border-right: 1px solid #e2e8f0; padding: 25px; display: flex; flex-direction: column; overflow-y: auto; }
-        textarea { width: 100%; height: 200px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; margin: 15px 0; font-family: inherit; font-size: 14px; resize: none; }
+        /* Left Sidebar */
+        .sidebar { width: 400px; background: white; border-right: 1px solid #e2e8f0; padding: 30px; display: flex; flex-direction: column; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
+        .sidebar h2 { margin-top: 0; color: #1e293b; font-size: 22px; }
+        .section-label { font-size: 12px; font-weight: 700; color: #64748b; margin-top: 20px; display: block; text-transform: uppercase; }
         
-        /* Buttons */
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
+        /* Inputs & Buttons */
+        .file-input-wrapper { margin: 10px 0; }
+        textarea { width: 100%; height: 180px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 8px; resize: none; font-size: 14px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 14px; margin-top: 15px; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-success { background: #10b981; color: white; }
-        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
-        .btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(95%); }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
 
         /* Resume Preview Area */
-        .preview-area { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; background: #64748b; }
+        .preview-area { flex-grow: 1; padding: 40px; overflow-y: auto; background: #cbd5e1; display: flex; justify-content: center; }
         #resume-paper { 
-            background: white; 
-            width: 210mm; 
-            min-height: 297mm; 
-            padding: 20mm; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            color: #1e293b;
-            line-height: 1.5;
+            background: white; width: 210mm; min-height: 297mm; padding: 25mm; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); color: #334155; line-height: 1.6;
         }
 
-        /* Resume Styles (Editable) */
-        .editable:hover { background: #f1f5f9; cursor: text; border-radius: 4px; }
-        .res-name { font-size: 28px; margin: 0; border-bottom: 2px solid var(--primary); color: #0f172a; }
-        .res-section { margin-top: 25px; }
-        .res-section-title { font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 13px; border-bottom: 1px solid #e2e8f0; margin-bottom: 10px; }
-        ul { padding-left: 20px; margin: 10px 0; }
-        li { margin-bottom: 5px; }
+        /* Resume Content Styles */
+        .editable { outline: none; transition: 0.2s; border-radius: 4px; border: 1px solid transparent; }
+        .editable:hover { border: 1px dashed #3b82f6; background: #eff6ff; }
+        .res-name { font-size: 32px; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; }
+        .res-contact { font-size: 14px; color: #64748b; margin-bottom: 30px; }
+        .res-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+        .res-section-title { font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 14px; margin: 20px 0 10px 0; border-bottom: 1px solid #e2e8f0; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
 
-        /* --- PRINT MAGIC --- */
+        /* Print Media Query */
         @media print {
-            .sidebar { display: none !important; }
-            .preview-area { padding: 0; background: white; overflow: visible; }
-            #resume-paper { box-shadow: none; margin: 0; width: 100%; border: none; }
-            body { background: white; }
+            .sidebar { display: none; }
+            .preview-area { padding: 0; background: white; }
+            #resume-paper { box-shadow: none; width: 100%; margin: 0; padding: 15mm; }
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h2 style="margin:0">Resume AI ✨</h2>
-        <p style="color: #64748b; font-size: 13px;">Free optimization powered by Gemini.</p>
+        <h2>Resume Tailor AI ✨</h2>
         
-        <label style="font-size: 12px; font-weight: bold; color: #475569;">PASTE JOB DESCRIPTION:</label>
-        <textarea id="job-desc" placeholder="Paste the job requirements here..."></textarea>
-        
-        <button id="opt-btn" class="btn btn-primary" onclick="optimizeResume()">🚀 Tailor Resume</button>
-        <button class="btn btn-success" onclick="window.print()">📥 Download PDF</button>
-        
-        <div id="status" style="font-size: 12px; text-align: center; color: var(--primary);"></div>
-        <p style="font-size: 11px; color: #94a3b8; margin-top: auto;">Tip: You can click any text on the resume to edit it manually before printing.</p>
+        <label class="section-label">1. Upload Current Resume</label>
+        <div class="file-input-wrapper">
+            <input type="file" id="resume-upload" accept=".pdf,.txt">
+        </div>
+
+        <label class="section-label">2. Target Job Description</label>
+        <textarea id="job-desc" placeholder="Paste the requirements from LinkedIn/Indeed here..."></textarea>
+
+        <button id="opt-btn" class="btn btn-primary" onclick="optimizeResume()">🚀 Tailor My Resume</button>
+        <button class="btn btn-outline" onclick="window.print()">📥 Download PDF</button>
+
+        <p id="status" style="margin-top: 20px; font-size: 13px; color: var(--primary); text-align: center; font-weight: 500;"></p>
     </div>
 
     <div class="preview-area">
         <div id="resume-paper">
-            <h1 class="res-name editable" contenteditable="true">ALEX DEVELOPER</h1>
-            <p class="editable" contenteditable="true">alex.dev@email.com | 555-0123 | San Francisco, CA</p>
+            <div class="res-header">
+                <h1 id="res-name" class="res-name editable" contenteditable="true">FULL NAME</h1>
+                <div id="res-contact" class="res-contact editable" contenteditable="true">Email | Phone | Location</div>
+            </div>
 
             <div class="res-section">
                 <div class="res-section-title">Professional Summary</div>
-                <p id="res-summary" class="editable" contenteditable="true">
-                    A motivated software developer with experience in full-stack web development. Passionate about solving complex problems and building user-centric applications.
-                </p>
+                <div id="res-summary" class="editable" contenteditable="true">
+                    Your tailored professional summary will appear here after clicking "Tailor My Resume".
+                </div>
             </div>
 
             <div class="res-section">
-                <div class="res-section-title">Core Experience</div>
-                <div id="res-experience">
-                    <strong class="editable" contenteditable="true">Software Engineer | GlobalTech Corp (2021-Present)</strong>
-                    <ul id="bullet-list">
-                        <li class="editable" contenteditable="true">Developed high-performance web features using modern frameworks.</li>
-                        <li class="editable" contenteditable="true">Collaborated with cross-functional teams to deliver projects on time.</li>
-                        <li class="editable" contenteditable="true">Participated in code reviews and optimized existing legacy code.</li>
-                    </ul>
-                </div>
+                <div class="res-section-title">Key Accomplishments</div>
+                <ul id="bullet-list">
+                    <li class="editable" contenteditable="true">High-impact achievement based on your experience.</li>
+                    <li class="editable" contenteditable="true">Keyword-optimized bullet point for the target role.</li>
+                    <li class="editable" contenteditable="true">Quantifiable result extracted from your history.</li>
+                </ul>
             </div>
+            
+            <p style="font-size: 10px; color: #94a3b8; margin-top: 50px;">*You can click any text above to manually edit it before saving.</p>
         </div>
     </div>
 
     <script>
-        // --- 1. CONFIGURATION ---
-        const FUNC_URL = 'https://iriwdybkpvahsputenzc.supabase.co/functions/v1/openai-proxy';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyaXdkeWJrcHZhaHNwdXRlbnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5MjE1MzIsImV4cCI6MjA4NDQ5NzUzMn0.ohEgOTIjzSu4oB_x8XNvGSWWcE22yyW04E7Duk-7LJ8'; // Replace this!
+        // CONFIGURATION
+        const SUPABASE_URL = 'https://iriwdybkpvahsputenzc.supabase.co/functions/v1/openai-proxy';
+        const ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        let extractedRawText = "";
 
+        // PDF Extraction Configuration
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // FILE UPLOAD HANDLER
+        document.getElementById('resume-upload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const status = document.getElementById('status');
+            status.innerText = "Processing file...";
+
+            try {
+                if (file.type === "application/pdf") {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let text = "";
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(" ") + " ";
+                    }
+                    extractedRawText = text;
+                } else {
+                    extractedRawText = await file.text();
+                }
+                status.innerText = "Resume uploaded successfully!";
+            } catch (err) {
+                status.innerText = "Error reading file: " + err.message;
+            }
+        });
+
+        // AI OPTIMIZATION HANDLER
         async function optimizeResume() {
             const jd = document.getElementById('job-desc').value;
             const btn = document.getElementById('opt-btn');
             const status = document.getElementById('status');
-            
-            if (!jd) return alert("Please paste a job description!");
+
+            if (!jd || !extractedRawText) {
+                return alert("Please upload a resume AND paste a job description first!");
+            }
 
             btn.disabled = true;
-            status.innerText = "Gemini is thinking...";
+            status.innerText = "AI is tailoring your resume...";
 
             try {
-                const response = await fetch(FUNC_URL, {
+                const response = await fetch(SUPABASE_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -115,29 +154,30 @@
                     },
                     body: JSON.stringify({
                         job_description: jd,
-                        current_resume: document.getElementById('resume-paper').innerText
+                        current_resume: extractedRawText
                     })
                 });
 
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
 
-                // Update UI with Gemini's response
+                // Update UI with AI-extracted personal info and tailored content
+                document.getElementById('res-name').innerText = data.name || "YOUR NAME";
+                document.getElementById('res-contact').innerText = data.contact || "Email | Phone | Location";
                 document.getElementById('res-summary').innerText = data.summary;
-                
+
                 const list = document.getElementById('bullet-list');
-                list.innerHTML = ""; // Clear old bullets
-                data.bullets.forEach(text => {
+                list.innerHTML = ""; 
+                data.bullets.forEach(txt => {
                     const li = document.createElement('li');
                     li.className = "editable";
                     li.contentEditable = "true";
-                    li.innerText = text;
+                    li.innerText = txt;
                     list.appendChild(li);
                 });
 
-                status.innerText = "Resume Optimized!";
+                status.innerText = "Optimization Complete!";
             } catch (err) {
-                console.error(err);
                 status.innerText = "Error: " + err.message;
             } finally {
                 btn.disabled = false;
