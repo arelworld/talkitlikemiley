@@ -3,180 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Tailor - Upload & Transform</title>
+    <title>AI Resume Optimizer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        :root { --primary: #2563eb; --bg: #f1f5f9; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
-
-        /* Left Sidebar */
-        .sidebar { width: 400px; background: white; border-right: 1px solid #e2e8f0; padding: 30px; display: flex; flex-direction: column; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
-        .sidebar h2 { margin-top: 0; color: #1e293b; font-size: 22px; }
-        .section-label { font-size: 12px; font-weight: 700; color: #64748b; margin-top: 20px; display: block; text-transform: uppercase; }
+        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
         
-        /* Inputs & Buttons */
-        .file-input-wrapper { margin: 10px 0; }
-        textarea { width: 100%; height: 180px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; margin-top: 8px; resize: none; font-size: 14px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 14px; margin-top: 15px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); }
-        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+        /* Sidebar Control Panel */
+        .sidebar { width: 400px; background: white; border-right: 1px solid #e2e8f0; padding: 25px; display: flex; flex-direction: column; overflow-y: auto; }
+        .input-group { margin-bottom: 20px; }
+        label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        textarea { width: 100%; height: 150px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; margin-top: 8px; font-family: inherit; resize: none; box-sizing: border-box; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-outline { background: white; border: 1px solid #cbd5e1; color: #1e293b; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* Resume Preview Area */
-        .preview-area { flex-grow: 1; padding: 40px; overflow-y: auto; background: #cbd5e1; display: flex; justify-content: center; }
+        .preview { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; justify-content: center; }
         #resume-paper { 
-            background: white; width: 210mm; min-height: 297mm; padding: 25mm; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.1); color: #334155; line-height: 1.6;
+            background: white; width: 210mm; min-height: 297mm; padding: 20mm; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); color: #1e293b; 
         }
 
-        /* Resume Content Styles */
-        .editable { outline: none; transition: 0.2s; border-radius: 4px; border: 1px solid transparent; }
-        .editable:hover { border: 1px dashed #3b82f6; background: #eff6ff; }
-        .res-name { font-size: 32px; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; }
-        .res-contact { font-size: 14px; color: #64748b; margin-bottom: 30px; }
-        .res-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
-        .res-section-title { font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 14px; margin: 20px 0 10px 0; border-bottom: 1px solid #e2e8f0; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
+        /* Resume Typography */
+        .res-name { font-size: 28px; font-weight: 800; margin: 0; color: #000; text-transform: uppercase; }
+        .res-contact { font-size: 13px; color: #64748b; margin-top: 5px; }
+        .res-section-header { font-weight: 700; color: var(--accent); border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin: 25px 0 10px 0; font-size: 13px; text-transform: uppercase; }
+        .job-title { font-weight: 700; display: block; }
+        .job-meta { font-size: 12px; color: #64748b; margin-bottom: 8px; display: block; }
+        ul { padding-left: 18px; margin: 0; }
+        li { margin-bottom: 6px; font-size: 14px; }
 
-        /* Print Media Query */
-        @media print {
-            .sidebar { display: none; }
-            .preview-area { padding: 0; background: white; }
-            #resume-paper { box-shadow: none; width: 100%; margin: 0; padding: 15mm; }
-        }
+        @media print { .sidebar { display: none; } .preview { padding: 0; background: white; } #resume-paper { box-shadow: none; width: 100%; } }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h2>Resume Tailor AI ✨</h2>
+        <h2>Resume Optimizer</h2>
         
-        <label class="section-label">1. Upload Current Resume</label>
-        <div class="file-input-wrapper">
-            <input type="file" id="resume-upload" accept=".pdf,.txt">
+        <div class="input-group">
+            <label>Step 1: Upload your current Resume</label>
+            <input type="file" id="resume-upload" accept=".pdf,.txt" style="margin-top:10px; font-size: 12px;">
         </div>
 
-        <label class="section-label">2. Target Job Description</label>
-        <textarea id="job-desc" placeholder="Paste the requirements from LinkedIn/Indeed here..."></textarea>
+        <div class="input-group">
+            <label>Step 2: Paste Target Job Description</label>
+            <textarea id="job-desc" placeholder="Paste the job you want here..."></textarea>
+        </div>
 
-        <button id="opt-btn" class="btn btn-primary" onclick="optimizeResume()">🚀 Tailor My Resume</button>
-        <button class="btn btn-outline" onclick="window.print()">📥 Download PDF</button>
-
-        <p id="status" style="margin-top: 20px; font-size: 13px; color: var(--primary); text-align: center; font-weight: 500;"></p>
+        <button id="opt-btn" class="btn btn-primary" onclick="optimizeResume()">✨ Tailor My Details</button>
+        <button class="btn btn-outline" onclick="window.print()">📥 Save as PDF</button>
+        
+        <p id="status" style="font-size: 12px; color: var(--accent); margin-top: 15px; text-align: center;"></p>
     </div>
 
-    <div class="preview-area">
+    <div class="preview">
         <div id="resume-paper">
-            <div class="res-header">
-                <h1 id="res-name" class="res-name editable" contenteditable="true">FULL NAME</h1>
-                <div id="res-contact" class="res-contact editable" contenteditable="true">Email | Phone | Location</div>
+            <div id="res-header">
+                <div id="res-name" class="res-name" contenteditable="true">YOUR NAME</div>
+                <div id="res-contact" class="res-contact" contenteditable="true">Email | Phone | Location</div>
             </div>
 
-            <div class="res-section">
-                <div class="res-section-title">Professional Summary</div>
-                <div id="res-summary" class="editable" contenteditable="true">
-                    Your tailored professional summary will appear here after clicking "Tailor My Resume".
-                </div>
+            <div class="res-section-header">Professional Objective</div>
+            <div id="res-objective" style="font-size: 14px;" contenteditable="true">Upload your resume to see your tailored objective here.</div>
+
+            <div class="res-section-header">Professional Experience</div>
+            <div id="experience-container">
+                <div style="font-size: 14px; color: #94a3b8;">Your experience will be reformatted here...</div>
             </div>
 
-            <div class="res-section">
-                <div class="res-section-title">Key Accomplishments</div>
-                <ul id="bullet-list">
-                    <li class="editable" contenteditable="true">High-impact achievement based on your experience.</li>
-                    <li class="editable" contenteditable="true">Keyword-optimized bullet point for the target role.</li>
-                    <li class="editable" contenteditable="true">Quantifiable result extracted from your history.</li>
-                </ul>
-            </div>
-            
-            <p style="font-size: 10px; color: #94a3b8; margin-top: 50px;">*You can click any text above to manually edit it before saving.</p>
+            <div class="res-section-header">Technical Skills</div>
+            <div id="res-skills" style="font-size: 14px;" contenteditable="true">Skills list...</div>
+
+            <div class="res-section-header">Education</div>
+            <div id="res-education" style="font-size: 14px;" contenteditable="true">Education details...</div>
         </div>
     </div>
 
     <script>
-        // CONFIGURATION
-        const SUPABASE_URL = 'https://iriwdybkpvahsputenzc.supabase.co/functions/v1/openai-proxy';
+        const FUNC_URL = 'YOUR_SUPABASE_FUNCTION_URL';
         const ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        let extractedRawText = "";
+        let rawResumeText = "";
 
-        // PDF Extraction Configuration
+        // File reader logic (PDF.js)
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // FILE UPLOAD HANDLER
         document.getElementById('resume-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
-            const status = document.getElementById('status');
-            status.innerText = "Processing file...";
-
-            try {
-                if (file.type === "application/pdf") {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                    let text = "";
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const content = await page.getTextContent();
-                        text += content.items.map(item => item.str).join(" ") + " ";
-                    }
-                    extractedRawText = text;
-                } else {
-                    extractedRawText = await file.text();
+            document.getElementById('status').innerText = "Processing file...";
+            
+            if (file.type === "application/pdf") {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let text = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    text += content.items.map(s => s.str).join(" ") + " ";
                 }
-                status.innerText = "Resume uploaded successfully!";
-            } catch (err) {
-                status.innerText = "Error reading file: " + err.message;
+                rawResumeText = text;
+            } else {
+                rawResumeText = await file.text();
             }
+            document.getElementById('status').innerText = "Resume ready!";
         });
 
-        // AI OPTIMIZATION HANDLER
         async function optimizeResume() {
             const jd = document.getElementById('job-desc').value;
+            if (!jd || !rawResumeText) return alert("Upload resume and paste JD first!");
+
             const btn = document.getElementById('opt-btn');
-            const status = document.getElementById('status');
-
-            if (!jd || !extractedRawText) {
-                return alert("Please upload a resume AND paste a job description first!");
-            }
-
             btn.disabled = true;
-            status.innerText = "AI is tailoring your resume...";
+            document.getElementById('status').innerText = "AI is rewriting your resume...";
 
             try {
-                const response = await fetch(SUPABASE_URL, {
+                const res = await fetch(FUNC_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${ANON_KEY}`,
-                        'apikey': ANON_KEY
-                    },
-                    body: JSON.stringify({
-                        job_description: jd,
-                        current_resume: extractedRawText
-                    })
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${ANON_KEY}`, 'apikey': ANON_KEY },
+                    body: JSON.stringify({ job_description: jd, current_resume: rawResumeText })
                 });
 
-                const data = await response.json();
-                if (data.error) throw new Error(data.error);
+                const data = await res.json();
 
-                // Make sure these IDs match your HTML elements!
-document.getElementById('res-name').innerText = data.name;
-document.getElementById('res-contact').innerText = data.contact;
-document.getElementById('res-summary').innerText = data.summary;
+                // UPDATE UI
+                document.getElementById('res-name').innerText = data.name;
+                document.getElementById('res-contact').innerText = data.contact;
+                document.getElementById('res-objective').innerText = data.objective;
+                document.getElementById('res-skills').innerText = data.skills;
+                document.getElementById('res-education').innerText = data.education;
 
-              const list = document.getElementById('bullet-list');
-list.innerHTML = "";
-data.bullets.forEach(txt => { // This will now always work!
-    const li = document.createElement('li');
-    li.innerText = txt;
-    list.appendChild(li);
-});
+                const expContainer = document.getElementById('experience-container');
+                expContainer.innerHTML = "";
+                data.experience.forEach(job => {
+                    const jobHtml = `
+                        <div style="margin-bottom: 15px;">
+                            <span class="job-title" contenteditable="true">${job.role}</span>
+                            <span class="job-meta" contenteditable="true">${job.company}</span>
+                            <ul>${job.bullets.map(b => `<li contenteditable="true">${b}</li>`).join('')}</ul>
+                        </div>`;
+                    expContainer.insertAdjacentHTML('beforeend', jobHtml);
+                });
 
-                status.innerText = "Optimization Complete!";
+                document.getElementById('status').innerText = "Done!";
             } catch (err) {
-                status.innerText = "Error: " + err.message;
+                document.getElementById('status').innerText = "Error!";
+                console.error(err);
             } finally {
                 btn.disabled = false;
             }
